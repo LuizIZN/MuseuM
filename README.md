@@ -21,7 +21,7 @@ Sistema de gerenciamento de Museu, desenvolvido como projeto pra disciplina de E
 
   ```powershell
   npm install && npm run dev
-  yarn add && yarn dev
+  yarn install && yarn dev
   ```
 * Caso não seja a primeira vez executando basta digita, com `npm` ou `yarn`:
 

@@ -21,6 +21,13 @@ class FuncionarioController {
   public criarFuncionario = async (req: Request, res: Response): Promise<void> => {
     const { nome, email, senha } = req.body;
 
+    const funcionarioExistente = await this.pool?.query("SELECT * FROM mydb.funcionario WHERE email = $1", [email]);
+
+    if (funcionarioExistente && funcionarioExistente?.rows.length > 0) {
+      res.status(422).json({ error: 'E-mail já cadastrado!' });
+      return;
+    }
+    
     const senhaCriptografada: string = await this.criptografarSenha(senha);
 
     this.funcionario.setNome(nome);
@@ -29,33 +36,33 @@ class FuncionarioController {
 
     try {
       const result = await this.pool?.query(
-        "INSERT INTO mydb.funcionario (nome, email, senha) VALUES ($1, $2, $3) RETURNING *",
+        "INSERT INTO mydb.funcionario (nome, email, senha) VALUES ($1, $2, $3) RETURNING id, nome, email",
         [
           this.funcionario.getNome(),
           this.funcionario.getEmail(),
           this.funcionario.getSenha(),
         ]
       );
-      res.status(201).json(result?.rows[0]);
+      res.status(201).json({ message: 'Funcionário criado com sucesso!', funcionario: result?.rows[0] });
     } catch (error) {
       console.error("Error executing query:", error);
-      res.status(500).json({ error: 'Erro ao criar funcionário' });
+      res.status(500).json({ error: 'Erro ao criar funcionário!' });
     }
   }
 
   public listarFuncionarios = async (req: Request, res: Response): Promise<void> => {
     try {
-      const result = await this.pool?.query("SELECT * FROM mydb.funcionario");
+      const result = await this.pool?.query("SELECT id, nome, email FROM mydb.funcionario");
 
       if (result?.rows.length === 0) {
-        res.status(404).json({ error: 'Nenhum funcionário encontrado' });
+        res.status(404).json({ error: 'Nenhum funcionário encontrado!' });
         return;
       }
 
       res.status(200).json(result?.rows);
     } catch (error) {
       console.error("Error executing query:", error);
-      res.status(500).json({ error: 'Erro ao listar funcionários' });
+      res.status(500).json({ error: 'Erro ao listar funcionários!' });
     }
   };
 
@@ -66,37 +73,36 @@ class FuncionarioController {
       const result = await this.pool?.query("SELECT * FROM mydb.funcionario WHERE id = $1", [id]);
 
       if (result?.rows.length === 0) {
-        res.status(404).json({ error: 'Funcionário não encontrado' });
+        res.status(404).json({ error: 'Funcionário não encontrado!' });
         return;
       }
 
       res.status(200).json(result?.rows[0]);
     } catch (error) {
       console.error("Error executing query:", error);
-      res.status(500).json({ error: 'Erro ao buscar funcionário' });
+      res.status(500).json({ error: 'Erro ao buscar funcionário!' });
     }
   }
 
   public editarFuncionario = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
-    const { nome, email, senha } = req.body;
+    const { nome, email }: { nome: string, email: string } = req.body;
 
     if (nome) this.funcionario.setNome(nome);
     if (email) this.funcionario.setEmail(email);
-    if (senha) this.funcionario.setSenha(await this.criptografarSenha(senha));
 
     try {
-      const result = await this.pool?.query("UPDATE mydb.funcionario SET nome = $1, email = $2, senha = $3 WHERE id = $4 RETURNING *", [this.funcionario.getNome(), this.funcionario.getEmail(), this.funcionario.getSenha(), id]);
+      const result = await this.pool?.query("UPDATE mydb.funcionario SET nome = $1, email = $2 WHERE id = $3 RETURNING id, nome, email", [this.funcionario.getNome(), this.funcionario.getEmail(), id]);
 
       if (result?.rows.length === 0) {
-        res.status(404).json({ error: "Não foi encontrado funcionário." });
+        res.status(404).json({ error: "Não foi encontrado funcionário!" });
         return;
       }
 
-      res.status(200).json(result?.rows[0]);
+      res.status(200).json({ message: "Funcionário atualizado com sucesso!", funcionario: result?.rows[0] });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Erro ao atualizar funcionário." })
+      res.status(500).json({ error: "Erro ao atualizar funcionário!" })
     }
   }
 
@@ -107,11 +113,11 @@ class FuncionarioController {
       const result = await this.pool?.query("DELETE FROM mydb.funcionario WHERE id = $1 RETURNING id, nome, email", [id]);
 
       if (result?.rows.length === 0) {
-        res.status(404).json({ error: "Funcionario não encontrado" });
+        res.status(404).json({ error: "Funcionario não encontrado!" });
         return;
       }
 
-      res.status(200).json({ excluido: result?.rows[0], message: "Funcionário deletado com sucesso!"});
+      res.status(200).json({ excluido: result?.rows[0], message: "Funcionário excluído com sucesso!"});
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Não foi possível excluir funcionário" })

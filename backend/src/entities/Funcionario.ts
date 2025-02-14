@@ -1,15 +1,17 @@
-export default class Funcionario {
+class Funcionario {
     protected nome: string;
-    protected email: string;
+    protected email: string; 
     protected senha: string;
+    protected usuario: Object;
 
-    constructor(nome: string, email: string, senha: string) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
+    constructor() {
+        this.nome = "";
+        this.email = "";
+        this.senha = "";
+        this.usuario = {};
     }
 
-    public getNome(): string {
+    public getNome(): string{
         return this.nome;
     }
 
@@ -33,10 +35,17 @@ export default class Funcionario {
         this.senha = senha;
     }
 
-    public getUser(): Object {
-        return {
-            username: this.getNome(),
-            email: this.getEmail()
-        };
+    public getUsuario(): Object {
+        return this.usuario;
+    }
+
+    public setUsuario() {
+        this.usuario = {
+            nome: this.getNome(),
+            email: this.getEmail(),
+            senha: this.getSenha()
+        }
     }
 };
+
+export default Funcionario;

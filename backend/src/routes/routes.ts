@@ -17,8 +17,15 @@ router.get('/', (req: Request, res: Response) => {
 // rotas funcionarios
 const funcionarioController = new FuncionarioController(pool);
 
+router.get('/funcionarios', funcionarioController.listarFuncionarios);
+
 router.post('/funcionario', funcionarioController.criarFuncionario);
 
+router.get('/funcionario/:id', funcionarioController.buscarFuncionarioPorId);
+
+router.put('/funcionario/:id', funcionarioController.editarFuncionario);
+
+router.delete('/funcionario/:id', funcionarioController.excluirFuncionario);
 
 
 module.exports = {

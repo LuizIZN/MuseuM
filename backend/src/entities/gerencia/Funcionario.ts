@@ -2,7 +2,7 @@ class Funcionario {
     protected nome: string;
     protected email: string; 
     protected senha: string;
-    protected usuario: Object;
+    protected usuario: { id: number, nome: string, email: string, token: Promise<string>} | {};
 
     constructor() {
         this.nome = "";
@@ -35,16 +35,12 @@ class Funcionario {
         this.senha = senha;
     }
 
-    public getUsuario(): Object {
+    public getUsuario(): object {
         return this.usuario;
     }
 
-    public setUsuario() {
-        this.usuario = {
-            nome: this.getNome(),
-            email: this.getEmail(),
-            senha: this.getSenha()
-        }
+    public setUsuario(usuario: object) {
+        this.usuario = usuario;
     }
 };
 

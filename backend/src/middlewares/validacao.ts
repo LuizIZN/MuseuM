@@ -8,9 +8,9 @@ const validate = (req: Request, res: Response, next: NextFunction) => {
         return next();
     }
 
-    const extractedErrors: object[] = [];
+    const extractedErrors: string[] = [];
 
-    errors.array().map((err: { msg: string }) => extractedErrors.push({ msg: err.msg }));
+    errors.array().map((err: { msg: string }) => extractedErrors.push(err.msg));
 
     res.status(422).json({
         errors: extractedErrors,

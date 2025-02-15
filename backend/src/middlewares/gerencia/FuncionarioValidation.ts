@@ -53,4 +53,19 @@ export default class FuncionarioValidation {
                 .withMessage("O e-mail precisa ter no máximo 45 caracteres!")
         ]
     }
+
+    public logarValidacao = () => {
+        return [
+            body("email")
+                .isString()
+                .withMessage("O e-mail é obrigatório!")
+                .isEmail()
+                .withMessage("Insira um e-mail válido!"),
+            body("senha")
+                .isString()
+                .withMessage("A senha é obrigatória")
+                .isLength({ min: 5 })
+                .withMessage("A senha precisa ter no mínimo 5 caracteres!")
+        ]
+    }
 }

@@ -25,7 +25,11 @@ router.get("/", (req: Request, res: Response) => {
 // guarda de autenticação
 const guarda = new AuthGuard(pool);
 
-// rotas funcionarios
+/*
+
+ROTAS DE FUNCIONARIOS
+
+*/
 const funcionarioController = new FuncionarioController(pool);
 const funcionarioValidation = new FuncionarioValidation();
 
@@ -37,21 +41,31 @@ router.get(
 
 router.post(
   "/funcionario",
+  guarda.autenticacao,
   funcionarioValidation.criarFuncionarioValidacao(),
   validate,
   funcionarioController.criarFuncionario
 );
 
-router.get("/funcionario/:id", funcionarioController.buscarFuncionarioPorId);
+router.get(
+  "/funcionario/:id",
+  guarda.autenticacao,
+  funcionarioController.buscarFuncionarioPorId
+);
 
 router.put(
   "/funcionario/:id",
+  guarda.autenticacao,
   funcionarioValidation.editarFuncionarioValidacao(),
   validate,
   funcionarioController.editarFuncionario
 );
 
-router.delete("/funcionario/:id", funcionarioController.excluirFuncionario);
+router.delete(
+  "/funcionario/:id",
+  guarda.autenticacao,
+  funcionarioController.excluirFuncionario
+);
 
 // rota login
 router.post(

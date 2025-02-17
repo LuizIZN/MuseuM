@@ -1,21 +1,40 @@
-import express from 'express';
-import cors from 'cors';
-require('dotenv').config();
+import express from "express";
+import cors from "cors";
+require("dotenv").config();
+import cookieParser from "cookie-parser";
 
 // rotas
-const { router } = require('./routes/routes');
+import Roteador from "./routes/routes";
 
-const app = express();
+class App {
+    public app: express.Application;
+    private roteador: Roteador | undefined;
+    
+    constructor() {
+        this.app = express();
+        this.roteador = undefined;
+        this.middlewares();
+        this.routes();
+    }
+    
+    private middlewares(): void {
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: false }));
+        this.app.use(cors({ origin: "*" }));
+        this.app.use(cookieParser());
+    }
+    
+    private routes(): void {
+        this.roteador = new Roteador();
+        this.app.use(this.roteador.rotas());
+    }
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+    public executar(porta: number): void {
+        this.app.listen(porta, () => {
+            console.log(`Servidor rodando na porta ${porta}`);
+        });
+    }
+}
 
-app.use(router);
-
-require('./config/db');
-
-const PORT = process.env.APP_PORT;
-const HOST = process.env.APP_HOST;
-
-app.listen(PORT, () => console.log(`Server running on port ${HOST}:${PORT}`));
+const app = new App();
+app.executar(parseInt(process.env.APP_PORT as string) || 4000);

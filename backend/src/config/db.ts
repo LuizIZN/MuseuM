@@ -1,21 +1,31 @@
 import { Pool } from "pg";
-require('dotenv').config();
 
-const conn = (): Pool | undefined => {
-    try {
-        const pool = new Pool({
+export default class Banco {
+    private conexao: Pool | undefined;
+
+    private setConexao(): void {
+        this.conexao = new Pool({
             user: process.env.DB_USER,
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
             password: process.env.DB_PASSWORD,
             port: parseInt(process.env.DB_PORT as string),
         });
-
-        console.log('Connected to the database');
-        return pool;
-    } catch (err: any) {
-        console.log('Error connecting to the database', err);
     }
-};
 
-module.exports = conn;
+    private getConexao(): Pool | undefined {
+        return this.conexao;
+    }
+
+    public criarConexao(): Pool | undefined {
+        try {
+            this.setConexao();
+
+            console.log('Conectado ao banco de dados!');
+
+            return this.getConexao();
+        } catch (erro: any) {
+            console.error('Erro ao conectar ao banco de dados!', erro);
+        }
+    }
+}

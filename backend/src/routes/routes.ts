@@ -1,80 +1,32 @@
-// dependências
 import express from "express";
-import { Request, Response } from "express";
 import { Pool } from "pg";
+import GerenciaRoutes from "./GerenciaRoutes";
+import Banco from "../config/db";
 
-// controllers
-import FuncionarioController from "../controllers/gerencia/FuncionarioController";
+export default class Roteador {
+    private conexao: Pool | undefined;
+    private roteador: express.Router;
+    private gerenciaRoutes: GerenciaRoutes;
+    private banco: Banco;
+    //private direcaoRoutes: DirecaoRoutes;
+    //private atendimentoRoutes: AtendimentoRoutes;
 
-// middlewares
-import FuncionarioValidation from "../middlewares/gerencia/FuncionarioValidation";
-import validate from "../middlewares/validacao";
-import AuthGuard from "../middlewares/authGuard";
+    constructor() {
+        this.banco = new Banco();
+        this.conexao = this.banco.criarConexao();
+        this.roteador = express.Router();
+        this.gerenciaRoutes = new GerenciaRoutes(this.conexao);
+    }
 
-const conn = require("../config/db");
+    private setGerenciaRoutes(): void {
+      this.roteador.use("/funcionarios", this.gerenciaRoutes.funcionarioRoutes());
+    }
 
-const pool: Pool | undefined = conn();
 
-const router = express.Router();
+    public rotas(): express.Router {
 
-// rota principal
-router.get("/", (req: Request, res: Response) => {
-  res.send("API funcionando");
-});
+        this.setGerenciaRoutes();
 
-// guarda de autenticação
-const guarda = new AuthGuard(pool);
-
-/*
-
-ROTAS DE FUNCIONARIOS
-
-*/
-const funcionarioController = new FuncionarioController(pool);
-const funcionarioValidation = new FuncionarioValidation();
-
-router.get(
-  "/funcionarios",
-  guarda.autenticacao,
-  funcionarioController.listarFuncionarios
-);
-
-router.post(
-  "/funcionario",
-  guarda.autenticacao,
-  funcionarioValidation.criarFuncionarioValidacao(),
-  validate,
-  funcionarioController.criarFuncionario
-);
-
-router.get(
-  "/funcionario/:id",
-  guarda.autenticacao,
-  funcionarioController.buscarFuncionarioPorId
-);
-
-router.put(
-  "/funcionario/:id",
-  guarda.autenticacao,
-  funcionarioValidation.editarFuncionarioValidacao(),
-  validate,
-  funcionarioController.editarFuncionario
-);
-
-router.delete(
-  "/funcionario/:id",
-  guarda.autenticacao,
-  funcionarioController.excluirFuncionario
-);
-
-// rota login
-router.post(
-  "/login",
-  funcionarioValidation.logarValidacao(),
-  validate,
-  funcionarioController.logar
-);
-
-module.exports = {
-  router,
-};
+        return this.roteador;
+    }
+}

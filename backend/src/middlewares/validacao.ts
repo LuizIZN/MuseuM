@@ -1,20 +1,28 @@
 const { validationResult } = require("express-validator");
-import { Request, Response, NextFunction } from "express";
+import { type Request, type Response, type NextFunction } from "express";
 
-const validate = (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
+class Validacao {
+  private erros: any;
+  private errosExtraidos: string[];
 
-    if (errors.isEmpty()) {
-        return next();
+  constructor() {
+    this.erros = undefined;
+    this.errosExtraidos = [];
+  }
+
+  public validar = (req: Request, res: Response, next: NextFunction) => {
+    this.erros = validationResult(req);
+
+    if (this.erros.isEmpty()) {
+      return next();
     }
 
-    const extractedErrors: string[] = [];
-
-    errors.array().map((err: { msg: string }) => extractedErrors.push(err.msg));
+    this.erros.array().map((erro: { msg: string }) => this.errosExtraidos.push(erro.msg));
 
     res.status(422).json({
-        errors: extractedErrors,
+      erros: this.errosExtraidos
     });
-};
+  };
+}
 
-export default validate;
+export default Validacao;

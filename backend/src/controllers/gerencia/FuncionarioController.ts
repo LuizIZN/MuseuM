@@ -40,7 +40,7 @@ class FuncionarioController {
 
     try {
       const funcionarioExistente = await this.conexao?.query(
-        "SELECT * FROM mydb.funcionario WHERE email = $1",
+        "SELECT * FROM museum.funcionario WHERE email = $1",
         [email]
       );
 
@@ -56,7 +56,7 @@ class FuncionarioController {
       this.funcionario.setSenha(senhaCriptografada);
 
       const resultado = await this.conexao?.query(
-        "INSERT INTO mydb.funcionario (nome, email, senha) VALUES ($1, $2, $3) RETURNING id, nome, email",
+        "INSERT INTO museum.funcionario (nome, email, senha) VALUES ($1, $2, $3) RETURNING id, nome, email",
         [
           this.funcionario.getNome(),
           this.funcionario.getEmail(),
@@ -74,12 +74,11 @@ class FuncionarioController {
   };
 
   public listarFuncionarios = async (
-    req: Request,
     res: Response
   ): Promise<void> => {
     try {
       const resultado = await this.conexao?.query(
-        "SELECT id, nome, email FROM mydb.funcionario"
+        "SELECT id, nome, email FROM museum.funcionario"
       );
 
       if (resultado?.rows.length === 0) {
@@ -104,7 +103,7 @@ class FuncionarioController {
 
     try {
       const resultado = await this.conexao?.query(
-        "SELECT id, nome, email FROM mydb.funcionario WHERE id = $1",
+        "SELECT id, nome, email FROM museum.funcionario WHERE id = $1",
         [id]
       );
 
@@ -132,7 +131,7 @@ class FuncionarioController {
 
     try {
       const resultado = await this.conexao?.query(
-        "UPDATE mydb.funcionario SET nome = $1, email = $2 WHERE id = $3 RETURNING id, nome, email",
+        "UPDATE museum.funcionario SET nome = $1, email = $2 WHERE id = $3 RETURNING id, nome, email",
         [this.funcionario.getNome(), this.funcionario.getEmail(), id]
       );
 
@@ -159,7 +158,7 @@ class FuncionarioController {
 
     try {
       const resultado = await this.conexao?.query(
-        "DELETE FROM mydb.funcionario WHERE id = $1 RETURNING id, nome, email",
+        "DELETE FROM museum.funcionario WHERE id = $1 RETURNING id, nome, email",
         [id]
       );
 
@@ -183,7 +182,7 @@ class FuncionarioController {
 
     try {
       const resultado = await this.conexao?.query(
-        "SELECT id, nome, email, senha FROM mydb.funcionario WHERE email = $1",
+        "SELECT id, nome, email, senha FROM museum .funcionario WHERE email = $1",
         [email]
       );
 

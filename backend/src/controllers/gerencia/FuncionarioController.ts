@@ -74,6 +74,7 @@ class FuncionarioController {
   };
 
   public listarFuncionarios = async (
+    req: Request,
     res: Response
   ): Promise<void> => {
     try {

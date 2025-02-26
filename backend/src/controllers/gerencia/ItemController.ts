@@ -31,7 +31,7 @@ class ItemController {
       this.item.setEstadoConservacao(estado_conservacao);
 
       const resultado = await this.conexao?.query(
-        "INSERT INTO museum.item (nome, cod_item, classificacao, estado_conservacao) VALUES ($1, $2, $3, $4) RETURNING *",
+        "INSERT INTO museum.item (nome, cod_item, classificacao, estadoconservacao) VALUES ($1, $2, $3, $4) RETURNING *",
         [nome, codigo, classificacao, estado_conservacao]
       );
 
@@ -45,7 +45,7 @@ class ItemController {
     }
   };
 
-  public listarItens = async (res: Response): Promise<void> => {
+  public listarItens = async (req: Request, res: Response): Promise<void> => {
     try {
       const resultado = await this.conexao?.query("SELECT * FROM museum.item");
 
@@ -91,7 +91,7 @@ class ItemController {
 
     try {
       const resultado = await this.conexao?.query(
-        "UPDATE museum.item SET nome = $1, cod_item = $2, classificacao = $3, estado_conservacao = $4 WHERE id = $5 RETURNING *",
+        "UPDATE museum.item SET nome = $1, cod_item = $2, classificacao = $3, estadoconservacao = $4 WHERE id = $5 RETURNING *",
         [nome, codigo, classificacao, estado_conservacao, id]
       );
 
@@ -124,12 +124,10 @@ class ItemController {
         return;
       }
 
-      res
-        .status(200)
-        .json({
-          excluido: resultado?.rows[0],
-          mensagem: "Item excluído com sucesso!",
-        });
+      res.status(200).json({
+        excluido: resultado?.rows[0],
+        mensagem: "Item excluído com sucesso!",
+      });
     } catch (erro: any) {
       console.error(erro);
       res.status(500).json({ erros: ["Não foi possível excluir item!"] });

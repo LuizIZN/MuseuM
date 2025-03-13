@@ -3,6 +3,8 @@ class Funcionario {
     protected email: string; 
     protected senha: string;
     protected usuario: { id: number, nome: string, email: string, token: Promise<string>} | {};
+    protected cargo: string | undefined;
+    protected permissoes: string[] | undefined;
 
     constructor() {
         this.nome = "";
@@ -35,12 +37,33 @@ class Funcionario {
         this.senha = senha;
     }
 
-    public getUsuario(): object {
-        return this.usuario;
+
+    public setCargo(cargo: string) {
+        this.cargo = cargo;
+    }
+
+    public getCargo(): string | undefined {
+        return this.cargo;
+    }
+
+    public setPermissoes(permissoes: string[]) {
+        this.permissoes = permissoes;
+    }
+
+    public getPermissoes(): string[] | undefined {
+        return this.permissoes;
     }
 
     public setUsuario(usuario: object) {
-        this.usuario = usuario;
+        this.usuario = {
+            ...usuario,
+            cargo: this.getCargo(),
+            permissoes: this.getPermissoes()
+        }
+    }
+    
+    public getUsuario(): object {
+        return this.usuario;
     }
 };
 

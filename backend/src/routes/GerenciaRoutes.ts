@@ -87,7 +87,12 @@ export default class GerenciaRoutes {
       this.funcionarioController.logar
     );
 
-<<<<<<< HEAD
+    roteador.post(
+      "/logout",
+      this.autenticacao.autenticacao,
+      this.funcionarioController.logout
+    );
+
     return roteador;
   }
 
@@ -129,14 +134,5 @@ export default class GerenciaRoutes {
     );
 
     return roteador;
-=======
-    this.roteador.post(
-      "/logout",
-      this.autenticacao.autenticacao,
-      this.funcionarioController.logout
-    );
-
-    return this.roteador;
->>>>>>> 0f58ccb13fb56408f05a07d1c4b7d6b133c3a4af
   }
 }

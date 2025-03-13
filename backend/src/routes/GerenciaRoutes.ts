@@ -32,24 +32,33 @@ export default class GerenciaRoutes {
     this.itemValidation = new ItemValidation();
   }
 
+  private verificarPermissoes(permissoes: string[]): boolean {
+    return permissoes.includes("Gerenciar funcionarios");
+  }
+
   public funcionarioRoutes(): Router {
     const roteador = express.Router();
 
     roteador.get(
       "/:id",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
+      this.validacao.validar,
       this.funcionarioController.buscarFuncionarioPorId
     );
 
     roteador.get(
       "/",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
+      this.validacao.validar,
       this.funcionarioController.listarFuncionarios
     );
 
     roteador.post(
       "/",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
       this.funcionarioValidation.criarFuncionarioValidacao(),
       this.validacao.validar,
       this.funcionarioController.criarFuncionario
@@ -58,6 +67,7 @@ export default class GerenciaRoutes {
     roteador.put(
       "/:id",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
       this.funcionarioValidation.editarFuncionarioValidacao(),
       this.validacao.validar,
       this.funcionarioController.editarFuncionario
@@ -66,6 +76,7 @@ export default class GerenciaRoutes {
     roteador.delete(
       "/:id",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
       this.funcionarioController.excluirFuncionario
     );
 
@@ -76,6 +87,7 @@ export default class GerenciaRoutes {
       this.funcionarioController.logar
     );
 
+<<<<<<< HEAD
     return roteador;
   }
 
@@ -117,5 +129,14 @@ export default class GerenciaRoutes {
     );
 
     return roteador;
+=======
+    this.roteador.post(
+      "/logout",
+      this.autenticacao.autenticacao,
+      this.funcionarioController.logout
+    );
+
+    return this.roteador;
+>>>>>>> 0f58ccb13fb56408f05a07d1c4b7d6b133c3a4af
   }
 }

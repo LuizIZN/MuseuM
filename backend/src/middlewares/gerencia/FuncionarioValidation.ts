@@ -1,7 +1,18 @@
-const { body } = require("express-validator");
+const { body, cookie } = require("express-validator");
 import { Request } from "express";
 
 export default class FuncionarioValidation {
+  public verificarPermissoes() {
+    return [
+      cookie("usuario").custom((usuario: any) => {
+        if (!usuario.permissoes.includes("Gerenciar funcionarios")) {
+          throw new Error("Usuário não possui permissão!");
+        }
+        return true;
+      }),
+    ];
+  }
+
   public criarFuncionarioValidacao = () => {
     return [
       body("nome")
@@ -33,6 +44,12 @@ export default class FuncionarioValidation {
           }
           return true;
         }),
+
+      body("cargo")
+        .isString()
+        .withMessage("O cargo é obrigatório!")
+        .isIn(["gerente", "diretor", "atendente"])
+        .withMessage("Cargo inválido!"),
     ];
   };
 
@@ -56,11 +73,19 @@ export default class FuncionarioValidation {
 
   public logarValidacao = () => {
     return [
+      cookie("usuario").custom((usuario: any) => {
+        if (usuario) {
+          throw new Error("Usuário já está logado!");
+        }
+        return true;
+      }),
+
       body("email")
         .isString()
         .withMessage("O e-mail é obrigatório!")
         .isEmail()
         .withMessage("Insira um e-mail válido!"),
+        
       body("senha")
         .isString()
         .withMessage("A senha é obrigatória")

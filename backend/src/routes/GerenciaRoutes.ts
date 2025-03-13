@@ -22,22 +22,31 @@ export default class GerenciaRoutes {
     this.funcionarioValidation = new FuncionarioValidation();
   }
 
+  private verificarPermissoes(permissoes: string[]): boolean {
+    return permissoes.includes("Gerenciar funcionarios");
+  }
+
   public funcionarioRoutes(): Router {
     this.roteador.get(
       "/:id",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
+      this.validacao.validar,
       this.funcionarioController.buscarFuncionarioPorId
     );
 
     this.roteador.get(
       "/",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
+      this.validacao.validar,
       this.funcionarioController.listarFuncionarios
     );
 
     this.roteador.post(
       "/",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
       this.funcionarioValidation.criarFuncionarioValidacao(),
       this.validacao.validar,
       this.funcionarioController.criarFuncionario
@@ -46,6 +55,7 @@ export default class GerenciaRoutes {
     this.roteador.put(
       "/:id",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
       this.funcionarioValidation.editarFuncionarioValidacao(),
       this.validacao.validar,
       this.funcionarioController.editarFuncionario
@@ -54,6 +64,7 @@ export default class GerenciaRoutes {
     this.roteador.delete(
       "/:id",
       this.autenticacao.autenticacao,
+      this.funcionarioValidation.verificarPermissoes(),
       this.funcionarioController.excluirFuncionario
     );
 
@@ -62,6 +73,12 @@ export default class GerenciaRoutes {
       this.funcionarioValidation.logarValidacao(),
       this.validacao.validar,
       this.funcionarioController.logar
+    );
+
+    this.roteador.post(
+      "/logout",
+      this.autenticacao.autenticacao,
+      this.funcionarioController.logout
     );
 
     return this.roteador;

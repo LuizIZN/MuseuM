@@ -45,10 +45,12 @@ class Autenticacao {
         process.env.JWT_SECRET || "museumsecret"
       );
 
-      req.usuario = await this.conexao?.query(
-        "SELECT id, nome, email FROM mydb.funcionario WHERE id = $1",
-        [(verificado as jwt.JwtPayload).id]
-      );
+      req.usuario = await this.conexao
+        ?.query(
+          "SELECT id, nome, email FROM museum.funcionario WHERE id = $1",
+          [(verificado as jwt.JwtPayload).id]
+        )
+        .then((resultado) => resultado?.rows[0]);
 
       next();
     } catch (erro: any) {

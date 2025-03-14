@@ -22,6 +22,8 @@ class Validacao {
     res.status(422).json({
       erros: this.errosExtraidos
     });
+
+    this.errosExtraidos = [];
   };
 }
 

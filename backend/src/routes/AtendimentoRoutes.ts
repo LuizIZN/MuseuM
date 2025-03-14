@@ -6,7 +6,7 @@ import Validacao from "../middlewares/validacao";
 
 //Middlewares
 
-export default class DirecaoRoutes {
+export default class AtendimentoRoutes {
     //Controllers
 
     //Middlewares

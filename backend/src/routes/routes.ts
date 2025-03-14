@@ -20,6 +20,7 @@ export default class Roteador {
 
     private setGerenciaRoutes(): void {
       this.roteador.use("/funcionarios", this.gerenciaRoutes.funcionarioRoutes());
+      this.roteador.use("/itens", this.gerenciaRoutes.itemRoutes());
     }
 
 

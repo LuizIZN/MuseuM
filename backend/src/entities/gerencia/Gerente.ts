@@ -18,7 +18,8 @@ export default class Gerente extends Funcionario {
       "Gerenciar horarios",
       "Gerenciar doacoes",
       "Gerenciar itens",
-      "Consultar noticias"
+      "Consultar noticias",
+      "Consultar itens"
     ];
     this.setCargo("gerente");
   }

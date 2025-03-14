@@ -32,10 +32,6 @@ export default class GerenciaRoutes {
     this.itemValidation = new ItemValidation();
   }
 
-  private verificarPermissoes(permissoes: string[]): boolean {
-    return permissoes.includes("Gerenciar funcionarios");
-  }
-
   public funcionarioRoutes(): Router {
     const roteador = express.Router();
 

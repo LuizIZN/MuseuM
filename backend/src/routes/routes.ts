@@ -19,14 +19,23 @@ export default class Roteador {
     }
 
     private setGerenciaRoutes(): void {
-      this.roteador.use("/funcionarios", this.gerenciaRoutes.funcionarioRoutes());
-      this.roteador.use("/itens", this.gerenciaRoutes.itemRoutes());
+        this.roteador.use("/funcionarios", this.gerenciaRoutes.funcionarioRoutes());
+        this.roteador.use("/itens", this.gerenciaRoutes.itemRoutes());
     }
 
+    private setDirecaoRoutes(): void {
+
+    }
+
+    private setAtendimentoRoutes() : void {
+
+    }
 
     public rotas(): express.Router {
 
         this.setGerenciaRoutes();
+        this.setDirecaoRoutes();
+        this.setAtendimentoRoutes();
 
         return this.roteador;
     }

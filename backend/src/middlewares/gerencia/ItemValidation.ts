@@ -1,9 +1,36 @@
-const { body } = require("express-validator");
-import { Request } from "express";
+const { body, cookie } = require("express-validator");
 
 export default class ItemValidation {
+  private verificarPermissoes = () => {
+    return cookie("usuario")
+      .custom((usuario: any) => {
+        if (usuario.permissoes.includes("Gerenciar itens")) {
+          return true;
+        }
+
+        return false;
+      })
+      .withMessage("Usuário não possui permissão!");
+  };
+
+  public verificarPermissoesConsulta = () => {
+    return [
+      cookie("usuario")
+        .custom((usuario: any) => {
+          if (!usuario.permissoes.includes("Consultar itens")) {
+            return false;
+          }
+
+          return true;
+        })
+        .withMessage("Usuário não possui permissão!"),
+    ];
+  };
+
   public criarItemValidacao = () => {
     return [
+      this.verificarPermissoes(),
+
       body("nome")
         .isString()
         .withMessage("O nome é obrigatório!")
@@ -19,21 +46,23 @@ export default class ItemValidation {
       body("classificacao")
         .isString()
         .withMessage("A classificação é obrigatória!")
-        .isLength({ min: 4, max: 50 })
-        .withMessage("A classificação precisa ter entre 4 e 50 caracteres!"),
+        .isIn(["Acervo", "Comercio", "Patrimonio"])
+        .withMessage("O item precisa ser de acervo, comércio ou patrimônio!"),
 
       body("estado_conservacao")
         .isString()
         .withMessage("O estado de conservação é obrigatório!")
-        .isLength({ min: 4, max: 50 })
+        .isIn(["Otimo", "Bom", "Regular", "Ruim", "Pessimo"])
         .withMessage(
-          "O estado de conservação precisa ter entre 4 e 50 caracteres!"
+          "O estado de conservação precisa ser ótimo, bom, regular, ruim ou péssimo!"
         ),
     ];
   };
 
   public editarItemValidacao = () => {
     return [
+      this.verificarPermissoes(),
+
       body("nome")
         .isString()
         .withMessage("O nome é obrigatório!")
@@ -49,16 +78,22 @@ export default class ItemValidation {
       body("classificacao")
         .isString()
         .withMessage("A classificação é obrigatória!")
-        .isLength({ min: 4, max: 50 })
-        .withMessage("A classificação precisa ter entre 4 e 50 caracteres!"),
+        .isIn(["Acervo", "Comercio", "Patrimonio"])
+        .withMessage("O item precisa ser de acervo, comércio ou patrimônio!"),
 
       body("estado_conservacao")
         .isString()
         .withMessage("O estado de conservação é obrigatório!")
-        .isLength({ min: 4, max: 50 })
+        .isIn(["Otimo", "Bom", "Regular", "Ruim", "Pessimo"])
         .withMessage(
-          "O estado de conservação precisa ter entre 4 e 50 caracteres!"
+          "O estado de conservação precisa ser ótimo, bom, regular, ruim ou péssimo!"
         ),
+    ];
+  };
+
+  public excluirItemValidacao = () => {
+    return [
+      this.verificarPermissoes(),
     ];
   };
 }

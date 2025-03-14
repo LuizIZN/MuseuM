@@ -26,13 +26,15 @@ class ItemController {
         return;
       }
 
+      const gerente_id = req.cookies.usuario.gerente_id;
+
       this.item.setNome(nome);
       this.item.setClassificacao(classificacao);
       this.item.setEstadoConservacao(estado_conservacao);
 
       const resultado = await this.conexao?.query(
-        "INSERT INTO museum.item (nome, cod_item, classificacao, estadoconservacao) VALUES ($1, $2, $3, $4) RETURNING *",
-        [nome, codigo, classificacao, estado_conservacao]
+        "INSERT INTO museum.item (nome, cod_item, classificacao, estadoconservacao, gerente_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+        [nome, codigo, classificacao, estado_conservacao, gerente_id]
       );
 
       res.status(201).json({
@@ -47,7 +49,11 @@ class ItemController {
 
   public listarItens = async (req: Request, res: Response): Promise<void> => {
     try {
-      const resultado = await this.conexao?.query("SELECT * FROM museum.item");
+      const resultado = await this.conexao?.query(
+        `SELECT i.*, f.nome as gerente_nome FROM museum.item i 
+          JOIN museum.gerente g ON i.gerente_id = g.id 
+          JOIN museum.funcionario f ON g.funcionario_id = f.id;`
+      );
 
       if (resultado?.rowCount === 0) {
         res.status(404).json({ erros: ["Nenhum item encontrado!"] });
@@ -69,7 +75,7 @@ class ItemController {
 
     try {
       const resultado = await this.conexao?.query(
-        "SELECT * FROM museum.item WHERE id = $1",
+        "SELECT i.*, f.nome as gerente_nome FROM museum.item i JOIN museum.gerente g ON i.gerente_id = g.id JOIN museum.funcionario f ON g.funcionario_id = f.id WHERE i.id = $1;",
         [id]
       );
 

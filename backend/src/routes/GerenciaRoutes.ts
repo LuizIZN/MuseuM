@@ -77,6 +77,7 @@ export default class GerenciaRoutes {
       "/:id",
       this.autenticacao.autenticacao,
       this.funcionarioValidation.verificarPermissoes(),
+      this.validacao.validar,
       this.funcionarioController.excluirFuncionario
     );
 
@@ -102,6 +103,8 @@ export default class GerenciaRoutes {
     roteador.get(
       "/",
       this.autenticacao.autenticacao,
+      this.itemValidation.verificarPermissoesConsulta(),
+      this.validacao.validar,
       this.itemController.listarItens
     );
 
@@ -116,6 +119,8 @@ export default class GerenciaRoutes {
     roteador.get(
       "/:id",
       this.autenticacao.autenticacao,
+      this.itemValidation.verificarPermissoesConsulta(),
+      this.validacao.validar,
       this.itemController.buscarItemPorId
     );
 
@@ -130,6 +135,8 @@ export default class GerenciaRoutes {
     roteador.delete(
       "/:id",
       this.autenticacao.autenticacao,
+      this.itemValidation.excluirItemValidacao(),
+      this.validacao.validar,
       this.itemController.excluirItem
     );
 

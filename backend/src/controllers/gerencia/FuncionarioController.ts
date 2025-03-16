@@ -247,7 +247,7 @@ class FuncionarioController {
         return;
       }
 
-      if (!(await bcrypt.compare(senha, resultado?.rows[0].senha))) {
+      if (!(await bcrypt.compare(senha, resultado?.rows[0].senha)) ) {
         res.status(422).json({ erros: ["Senha inválida!"] });
         return;
       }

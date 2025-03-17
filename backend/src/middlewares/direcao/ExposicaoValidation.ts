@@ -4,7 +4,7 @@ export default class ExposicaoValidation {
   private verificarPermissoes = () => {
     return cookie("usuario")
       .custom((usuario: any) => {
-        if (usuario.permissoes.includes("Gerenciar exposições")) {
+        if (usuario.permissoes.includes("Gerenciar exposicoes")) {
           return true;
         }
 

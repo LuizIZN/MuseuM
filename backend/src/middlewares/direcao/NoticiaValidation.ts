@@ -55,6 +55,36 @@ export default class NoticiaValidation {
         
         ];
     };
+    
+    public editarNoticiaValidacao = () => {
+      return [
+        this.verificarPermissoes(),
+  
+        body("titulo")
+          .isString()
+          .withMessage("O titulo é obrigatório!")
+          .isLength({ min: 4, max: 50 })
+          .withMessage("O titulo precisa ter entre 6 e 50 caracteres!"),
+  
+        body("texto")
+          .isString()
+          .withMessage("O texto é obrigatório!")
+          .isLength({ max: 500 })
+              .withMessage("O texto precisa ter até 500 caracteres!"),
+        
+        body("palavrasChave")
+          .isArray()
+          .withMessage()
+          .custom((palavras) => {
+              if (!palavras.every((p: string) => typeof p === "string" && p.length <= 50)) {
+                  throw new Error("Cada palavra-chave deve ser um texto com no máximo 50 caracteres!");
+              }
+              return true;}),
+      
+      ];
+    };
+    
+
 
     public excluirNoticiaValidacao = () => {
         return [

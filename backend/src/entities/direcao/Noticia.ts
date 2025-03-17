@@ -12,6 +12,15 @@ class Noticia {
 
     }
 
+
+    public getId(): number {
+        return this.id;
+    }
+
+    public setId(id: number) {
+        this.id = id;
+    }  
+
     public getTitulo():string {
         return this.titulo;
     }

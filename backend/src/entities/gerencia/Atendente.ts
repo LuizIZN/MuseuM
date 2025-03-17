@@ -13,7 +13,6 @@ export default class Atendente extends Funcionario {
       "Gerenciar visitantes",
       "Gerenciar visitas",
       "Gerenciar emprestimos",
-      "Gerenciar visitas",
       "Consultar noticias",
       "Consultar exposicoes",
       "Consultar eventos",

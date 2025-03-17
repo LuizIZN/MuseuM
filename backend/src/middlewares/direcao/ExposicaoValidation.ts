@@ -17,7 +17,7 @@ export default class ExposicaoValidation {
     return [
       cookie("usuario")
         .custom((usuario: any) => {
-          if (!usuario.permissoes.includes("Consultar exposições")) {
+          if (!usuario.permissoes.includes("Consultar exposicoes")) {
             return false;
           }
 

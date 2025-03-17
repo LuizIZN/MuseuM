@@ -16,16 +16,6 @@ class ExposicaoController {
     const { titulo, dias, descricao} = req.body;
 
     try {
-      const exposicaoExistente = await this.conexao?.query(
-        "SELECT * FROM museum.exposicao WHERE titulo = $1",
-        [titulo]
-      );
-
-      if (exposicaoExistente && exposicaoExistente?.rows.length > 0) {
-        res.status(422).json({ erros: ["Exposição já cadastrada!"] });
-        return;
-      }
-
       const diretor_id = req.cookies.usuario.diretor_id;
 
       this.exposicao.setTitulo(titulo);
@@ -102,12 +92,12 @@ class ExposicaoController {
       );
 
       if (resultado?.rowCount === 0) {
-        res.status(404).json({ erros: ["Exposição não encontrado!"] });
+        res.status(404).json({ erros: ["Exposição não encontrada!"] });
         return;
       }
 
       res.status(200).json({
-        mensagem: "Exposiçâo atualizado com sucesso!",
+        mensagem: "Exposiçâo atualizada com sucesso!",
         exposicao: resultado?.rows[0],
       });
     } catch (erro: any) {

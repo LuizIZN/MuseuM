@@ -13,7 +13,10 @@ export default class Diretor extends Funcionario {
       "Gerenciar eventos",
       "Gerenciar exposicoes",
       "Gerenciar noticias",
-      "Consultar itens"
+      "Consultar itens",
+      "Consultar exposicoes",
+      "Consultar eventos",
+      "Consultar noticias"
     ];
     this.setCargo("diretor");
   }

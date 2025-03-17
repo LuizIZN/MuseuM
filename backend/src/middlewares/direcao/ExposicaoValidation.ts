@@ -41,11 +41,14 @@ export default class ExposicaoValidation {
         .isArray()
         .withMessage("Os dias devem ser um array de datas!")
         .custom((value: string[]) => {
-            return value.every(dia => /^\d{2}-\d{2}-\d{4}$/.test(dia));
-        }).withMessage("As datas devem estar no formato DD-MM-YYYY!"),
+            return value.every(dia => /^\d{4}-\d{2}-\d{2}$/.test(dia));
+        }).withMessage("As datas devem estar no formato YYYY-MM-DD!"),
 
       body("descricao")
-        .isString(),
+        .isString()
+        .withMessage("A descrição é obrigatória!")
+        .isLength({ min: 4, max: 200 })
+        .withMessage("A descrição precisa ter entre 4 e 200 caracteres!"),
     ];
   };
 
@@ -63,11 +66,14 @@ export default class ExposicaoValidation {
         .isArray()
         .withMessage("Os dias devem ser um array de datas!")
         .custom((value: string[]) => {
-            return value.every(dia => /^\d{2}-\d{2}-\d{4}$/.test(dia));
-        }).withMessage("As datas devem estar no formato DD-MM-YYYY!"),
+            return value.every(dia => /^\d{4}-\d{2}-\d{2}$/.test(dia));
+        }).withMessage("As datas devem estar no formato YYYY-MM-DD!"),
 
       body("descricao")
-        .isString(),
+        .isString()
+        .withMessage("A descrição é obrigatória!")
+        .isLength({ min: 4, max: 200 })
+        .withMessage("A descrição precisa ter entre 4 e 200 caracteres!"),
     ];
   };
 

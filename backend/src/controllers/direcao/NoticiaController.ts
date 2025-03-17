@@ -16,15 +16,6 @@ class NoticiaController{
         const { titulo, texto, palavrasChave } = req.body;
 
         try {
-            const noticiaExistente = await this.conexao?.query(
-                "SELECT * FROM museum.noticia WHERE titulo = $1",
-                [titulo]
-            );
-
-            if (noticiaExistente && noticiaExistente?.rows.length > 0) {
-                res.status(422).json({ erros: ["Noticia já cadastrada!"] });
-                return;
-            }
 
             const diretor_id = req.cookies.usuario.diretor_id;
 
@@ -48,4 +39,8 @@ class NoticiaController{
             res.status(500).json({ erros: ["Não foi possivel criar noticia!"] });
         }
     };
+
+    
+
+
 }

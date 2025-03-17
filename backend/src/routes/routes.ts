@@ -24,7 +24,7 @@ export default class Roteador {
     }
 
     private setDirecaoRoutes(): void {
-
+        
     }
 
     private setAtendimentoRoutes() : void {

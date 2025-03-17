@@ -46,7 +46,7 @@ export default class NoticiaValidation {
           body("palavrasChave")
             .isArray()
             .withMessage()
-            .custom((palavras) => {
+            .custom((palavras: any) => {
                 if (!palavras.every((p: string) => typeof p === "string" && p.length <= 50)) {
                     throw new Error("Cada palavra-chave deve ser um texto com no máximo 50 caracteres!");
                 }
@@ -75,7 +75,7 @@ export default class NoticiaValidation {
         body("palavrasChave")
           .isArray()
           .withMessage()
-          .custom((palavras) => {
+          .custom((palavras: any) => {
               if (!palavras.every((p: string) => typeof p === "string" && p.length <= 50)) {
                   throw new Error("Cada palavra-chave deve ser um texto com no máximo 50 caracteres!");
               }

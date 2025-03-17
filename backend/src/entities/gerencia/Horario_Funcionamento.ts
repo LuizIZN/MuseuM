@@ -1,4 +1,4 @@
-export default class evento {
+export default class Horario_atendimento {
     private id: number;
     private horaInicio: string;
     private horaFim: string;

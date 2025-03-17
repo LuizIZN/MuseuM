@@ -8,7 +8,7 @@ import Validacao from "../middlewares/validacao";
 import NoticiaController from "../controllers/direcao/NoticiaController";
 
 //Middlewares
-import NoticiaValidation from "../middlewares/direcao/noticiaValidation";
+import NoticiaValidation from "../middlewares/direcao/NoticiaValidation";
 
 export default class DirecaoRoutes {
     //Controllers

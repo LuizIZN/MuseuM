@@ -33,6 +33,16 @@ UPDATE museum.funcionario SET gerente_id = 1 WHERE id = 1;
 UPDATE museum.funcionario SET gerente_id = 2 WHERE id = 2;
 UPDATE museum.funcionario SET gerente_id = 3 WHERE id = 3;
 UPDATE museum.funcionario SET gerente_id = 4 WHERE id = 4;
+UPDATE museum.funcionario SET gerente_id = 1 WHERE id = 5;
+UPDATE museum.funcionario SET gerente_id = 2 WHERE id = 6;
+UPDATE museum.funcionario SET gerente_id = 3 WHERE id = 7;
+UPDATE museum.funcionario SET gerente_id = 4 WHERE id = 8;
+UPDATE museum.funcionario SET gerente_id = 1 WHERE id = 9;
+UPDATE museum.funcionario SET gerente_id = 2 WHERE id = 10;
+UPDATE museum.funcionario SET gerente_id = 3 WHERE id = 11;
+UPDATE museum.funcionario SET gerente_id = 4 WHERE id = 12;
+UPDATE museum.funcionario SET gerente_id = 1 WHERE id = 13;
+UPDATE museum.funcionario SET gerente_id = 2 WHERE id = 14;
 
 -- Inserções para a tabela visitante (10 visitantes)
 INSERT INTO museum.visitante (id, email, telefone, endereco, atendente_id) VALUES

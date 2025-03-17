@@ -3,12 +3,14 @@ import { Pool } from "pg";
 import GerenciaRoutes from "./GerenciaRoutes";
 import Banco from "../config/db";
 import DirecaoRoutes from "./DirecaoRoutes";
+import AtendenteRoutes from "./AtendimenteRoutes";
 
 export default class Roteador {
     private conexao: Pool | undefined;
     private roteador: express.Router;
     private gerenciaRoutes: GerenciaRoutes;
     private direcaoRoutes: DirecaoRoutes;
+    private atendenteRoutes: AtendenteRoutes;
     private banco: Banco;
     //private direcaoRoutes: DirecaoRoutes;
     //private atendimentoRoutes: AtendimentoRoutes;
@@ -19,6 +21,7 @@ export default class Roteador {
         this.roteador = express.Router();
         this.gerenciaRoutes = new GerenciaRoutes(this.conexao);
         this.direcaoRoutes = new DirecaoRoutes(this.conexao);
+        this.atendenteRoutes = new AtendenteRoutes(this.conexao)
     }
 
     private setGerenciaRoutes(): void {
@@ -31,7 +34,7 @@ export default class Roteador {
     }
 
     private setAtendimentoRoutes() : void {
-
+        this.roteador.use("/visitante", this.atendenteRoutes.visitanteRoutes())
     }
 
     public rotas(): express.Router {

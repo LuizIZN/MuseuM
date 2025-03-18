@@ -68,7 +68,7 @@ class NoticiaController{
     
         try {
           const resultado = await this.conexao?.query(
-            "SELECT n.*, f.nome as diretor_nome FROM museum.noticia i JOIN museum.diretor d ON i.diretor_id = d.id JOIN museum.funcionario f ON d.funcionario_id = f.id WHERE i.id = $1;",
+            "SELECT i.*, f.nome as diretor_nome FROM museum.noticia i JOIN museum.diretor d ON i.diretor_id = d.id JOIN museum.funcionario f ON d.funcionario_id = f.id WHERE i.id = $1;",
             [id]
           );
     

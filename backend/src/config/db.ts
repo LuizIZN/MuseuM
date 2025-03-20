@@ -23,12 +23,9 @@ export default class Banco {
 
             await this.conexao!.connect();
 
-            console.log('Conectado ao banco de dados!');
-
-            return this.getConexao();
+            return this.conexao;
         } catch (erro: any) {
             console.error('Erro ao conectar ao banco de dados!', erro);
-
             process.exit(1);
         }
     }

@@ -6,43 +6,61 @@ import Banco from "../config/db";
 import AtendenteRoutes from "./AtendimenteRoutes";
 
 export default class Roteador {
-    private conexao: Pool | undefined;
-    private roteador: express.Router;
-    private gerenciaRoutes: GerenciaRoutes;
-    private direcaoRoutes: DirecaoRoutes;
-    private banco: Banco;
-    //private direcaoRoutes: DirecaoRoutes;
-    private atendimentoRoutes: AtendenteRoutes;
+  private conexao: Pool | undefined;
+  private roteador: express.Router;
+  private gerenciaRoutes: GerenciaRoutes | undefined;
+  private direcaoRoutes: DirecaoRoutes | undefined;
+  private banco: Banco;
+  private atendimentoRoutes: AtendenteRoutes | undefined;
 
-    constructor() {
-        this.banco = new Banco();
-        this.conexao = this.banco.criarConexao();
-        this.roteador = express.Router();
+  constructor() {
+    this.banco = new Banco();
+    this.banco
+      .criarConexao()
+      .then((conexao) => {
+        this.conexao = conexao;
+        console.log("Conexão com o banco de dados estabelecida!");
+
         this.gerenciaRoutes = new GerenciaRoutes(this.conexao);
         this.direcaoRoutes = new DirecaoRoutes(this.conexao);
-        this.atendimentoRoutes = new AtendenteRoutes(this.conexao)
-    }
-
-    private setGerenciaRoutes(): void {
-        this.roteador.use("/funcionarios", this.gerenciaRoutes.funcionarioRoutes());
-        this.roteador.use("/itens", this.gerenciaRoutes.itemRoutes());
-    }
-
-    private setDirecaoRoutes(): void {
-        this.roteador.use("/exposicoes", this.direcaoRoutes.exposicaoRoutes());
-        this.roteador.use("/noticias", this.direcaoRoutes.noticiaRoutes());
-    }
-
-    private setAtendimentoRoutes() : void {
-        this.roteador.use("/visitante", this.atendimentoRoutes.visitanteRoutes())
-    }
-
-    public rotas(): express.Router {
-
-        this.setGerenciaRoutes();
+        this.atendimentoRoutes = new AtendenteRoutes(this.conexao);
         this.setDirecaoRoutes();
-        this.setAtendimentoRoutes();
+        this.setGerenciaRoutes();
+      })
+      .catch((erro) => {
+        console.error("Erro ao conectar ao banco de dados!", erro);
+        process.exit(1);
+      });
+    this.roteador = express.Router();
+  }
 
-        return this.roteador;
+  private setGerenciaRoutes(): void {
+    if (!this.gerenciaRoutes) {
+      return;
     }
+    this.roteador.use("/funcionarios", this.gerenciaRoutes.funcionarioRoutes());
+    this.roteador.use("/itens", this.gerenciaRoutes.itemRoutes());
+  }
+
+  private setDirecaoRoutes(): void {
+    if (!this.direcaoRoutes) {
+      return;
+    }
+    this.roteador.use("/noticias", this.direcaoRoutes.noticiaRoutes());
+  }
+
+  private setAtendimentoRoutes(): void {
+    if (!this.atendimentoRoutes) {
+        return;
+    }
+    this.roteador.use("/visitantes", this.atendimentoRoutes.visitanteRoutes())
+  }
+
+  public rotas(): express.Router {
+    this.setGerenciaRoutes();
+    this.setDirecaoRoutes();
+    this.setAtendimentoRoutes();
+
+    return this.roteador;
+  }
 }

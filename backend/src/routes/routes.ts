@@ -1,8 +1,8 @@
 import express from "express";
 import { Pool } from "pg";
 import GerenciaRoutes from "./GerenciaRoutes";
-import Banco from "../config/db";
 import DirecaoRoutes from "./DirecaoRoutes";
+import Banco from "../config/db";
 import AtendenteRoutes from "./AtendimenteRoutes";
 
 export default class Roteador {
@@ -10,10 +10,9 @@ export default class Roteador {
     private roteador: express.Router;
     private gerenciaRoutes: GerenciaRoutes;
     private direcaoRoutes: DirecaoRoutes;
-    private atendenteRoutes: AtendenteRoutes;
     private banco: Banco;
     //private direcaoRoutes: DirecaoRoutes;
-    //private atendimentoRoutes: AtendimentoRoutes;
+    private atendimentoRoutes: AtendenteRoutes;
 
     constructor() {
         this.banco = new Banco();
@@ -21,7 +20,7 @@ export default class Roteador {
         this.roteador = express.Router();
         this.gerenciaRoutes = new GerenciaRoutes(this.conexao);
         this.direcaoRoutes = new DirecaoRoutes(this.conexao);
-        this.atendenteRoutes = new AtendenteRoutes(this.conexao)
+        this.atendimentoRoutes = new AtendenteRoutes(this.conexao)
     }
 
     private setGerenciaRoutes(): void {
@@ -31,10 +30,11 @@ export default class Roteador {
 
     private setDirecaoRoutes(): void {
         this.roteador.use("/exposicoes", this.direcaoRoutes.exposicaoRoutes());
+        this.roteador.use("/noticias", this.direcaoRoutes.noticiaRoutes());
     }
 
     private setAtendimentoRoutes() : void {
-        this.roteador.use("/visitante", this.atendenteRoutes.visitanteRoutes())
+        this.roteador.use("/visitante", this.atendimentoRoutes.visitanteRoutes())
     }
 
     public rotas(): express.Router {

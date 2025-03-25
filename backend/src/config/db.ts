@@ -17,15 +17,16 @@ export default class Banco {
         return this.conexao;
     }
 
-    public criarConexao(): Pool | undefined {
+    public async criarConexao(): Promise<Pool | undefined> {
         try {
             this.setConexao();
 
-            console.log('Conectado ao banco de dados!');
+            await this.conexao!.connect();
 
-            return this.getConexao();
+            return this.conexao;
         } catch (erro: any) {
             console.error('Erro ao conectar ao banco de dados!', erro);
+            process.exit(1);
         }
     }
 }

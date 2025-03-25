@@ -1,5 +1,4 @@
 const { body, cookie } = require("express-validator");
-import { Request } from "express";
 
 export default class VisitanteValidation {
   public verificarPermissoes() {
@@ -39,13 +38,41 @@ export default class VisitanteValidation {
         .isString()
         .withMessage("O tipo de pessoa é obrigatório!")
         .isIn(["pessoafisica", "pessoajuridica"])
-        .withMessage("O tipo de pessoa inválido!"),
+        .withMessage("O tipo de pessoa é inválido!")
+        .custom((tipodepessoa: string) => {
+          if (tipodepessoa === "pessoafisica") {
+            body("cpf")
+              .isString()
+              .withMessage("O CPF é obrigatório!")
+              .custom((cpf: string) => {
+                if (cpf.length !== 11) {
+                  throw new Error("O CPF precisa ter 11 caracteres!");
+                }
+                return true;
+              });
+            body("nome").isString().withMessage("O nome é obrigatório!");
+          } else {
+            body("cnpj")
+              .isString()
+              .withMessage("O CNPJ é obrigatório!")
+              .custom((cnpj: string) => {
+                if (cnpj.length !== 14) {
+                  throw new Error("O CNPJ precisa ter 14 caracteres!");
+                }
+                return true;
+              });
+            body("razao_social")
+              .isString()
+              .withMessage("A razão social é obrigatória!");
+          }
+          return true;
+        }),
     ];
   };
 
   public editarVisitanteValidacao = () => {
     return [
-        body("telefone")
+      body("telefone")
         .isString()
         .withMessage("O telefone é obrigatório!")
         .isLength({ min: 11, max: 20 })
@@ -64,7 +91,6 @@ export default class VisitanteValidation {
         .withMessage("O endereco é obrigatória")
         .isLength({ min: 20 })
         .withMessage("O endereco precisa ter no mínimo 20 caracteres!"),
-       ];
+    ];
   };
-
 }

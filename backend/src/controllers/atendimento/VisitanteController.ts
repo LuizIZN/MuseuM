@@ -119,10 +119,14 @@ class VisitanteController {
       const query = `
         SELECT 
           v.* AS visitante_id, 
-          f.nome AS funcionario_nome
+          f.nome AS funcionario_nome,
+          pf.cpf, pf.nome AS pessoafisica_nome,
+          pj.cnpj, pj.razao_social AS pessoajuridica_razao_social
           FROM museum.visitante v
-          LEFT JOIN museum.atendentes a ON (a.id = v.atendente_id)
+          LEFT JOIN museum.atendente a ON (a.id = v.atendente_id)
           LEFT JOIN museum.funcionario f ON (f.id = a.funcionario_id)
+          LEFT JOIN museum.pessoafisica pf ON (pf.visitante_id = v.id)
+          LEFT JOIN museum.pessoajuridica pj ON (pj.visitante_id = v.id)
       `;
 
       const resultado = await this.conexao?.query(query);
@@ -149,7 +153,9 @@ class VisitanteController {
 
     try {
       const resultado = await this.conexao?.query(
-        "SELECT v.* AS visitante_id, f.nome AS funcionario_nome FROM museum.visitante v LEFT JOIN museum.atendentes a ON (a.id = v.atendente_id) LEFT JOIN museum.funcionario f ON (f.id = a.funcionario_id) WHERE v.id = $1",
+        `SELECT v.* AS visitante_id, f.nome AS funcionario_nome, pf.cpf, pf.nome AS pessoafisica_nome,
+          pj.cnpj, pj.razao_social AS pessoajuridica_razao_social FROM museum.visitante v LEFT JOIN museum.atendente a ON (a.id = v.atendente_id) LEFT JOIN museum.funcionario f ON (f.id = a.funcionario_id) LEFT JOIN museum.pessoafisica pf ON (pf.visitante_id = v.id)
+          LEFT JOIN museum.pessoajuridica pj ON (pj.visitante_id = v.id) WHERE v.id = $1`,
         [id]
       );
 

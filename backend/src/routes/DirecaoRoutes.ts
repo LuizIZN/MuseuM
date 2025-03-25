@@ -6,11 +6,13 @@ import Validacao from "../middlewares/validacao";
 
 //Controllers
 import NoticiaController from "../controllers/direcao/NoticiaController";
-import ExposicaoController from "../controllers/direcao/ExposicaoController";
+import ExposicaoController from "../controllers/direcao/ExposicaoController";   
+
 
 //Middlewares
 import NoticiaValidation from "../middlewares/direcao/NoticiaValidation";
 import ExposicaoValidation from "../middlewares/direcao/ExposicaoValidation";
+
 
 export default class DirecaoRoutes {
     //Controllers
@@ -42,7 +44,7 @@ export default class DirecaoRoutes {
           this.validacao.validar,
           this.noticiaController.listarNoticias
         );
-    
+
         roteador.post(
           "/",
           this.autenticacao.autenticacao,
@@ -123,5 +125,4 @@ export default class DirecaoRoutes {
     
         return roteador;
     }
-
 }

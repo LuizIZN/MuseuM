@@ -1,8 +1,5 @@
 import { type Request, type Response } from "express";
 import { type Pool } from "pg";
-import bcrypt from "bcrypt";
-
-import jwt from "jsonwebtoken";
 
 import Visitante from "../../entities/atendimento/Visitante";
 import Pessoafisica from "../../entities/atendimento/Pessoafisica";
@@ -11,22 +8,11 @@ import Pessoajuridica from "../../entities/atendimento/Pessoajuridica";
 class VisitanteController {
   private conexao: Pool | undefined;
   private visitante: Visitante;
-  private segredo: string | undefined;
 
   constructor(conexao: Pool | undefined) {
-    this.segredo = process.env.JWT_SECRET;
     this.conexao = conexao;
     this.visitante = new Visitante();
   }
-
-  private gerarToken = (id: number): string => {
-    if (!this.segredo) {
-      throw new Error("Segredo JWT não está definido!");
-    }
-    return jwt.sign({ id }, this.segredo, {
-      expiresIn: "7d",
-    });
-  };
 
   public criarVisitante = async (
     req: Request,

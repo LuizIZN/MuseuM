@@ -56,6 +56,7 @@ export default class Roteador {
       return;
     }
     this.roteador.use("/visitantes", this.atendimentoRoutes.visitanteRoutes());
+    this.roteador.use("/visitas", this.atendimentoRoutes.visitaRoutes());
   }
 
   public rotas(): express.Router {

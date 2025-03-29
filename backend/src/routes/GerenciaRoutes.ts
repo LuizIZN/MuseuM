@@ -6,11 +6,13 @@ import { type Pool } from "pg";
 import FuncionarioController from "../controllers/gerencia/FuncionarioController";
 import ItemController from "../controllers/gerencia/ItemController";
 import ManutencaoController from "../controllers/gerencia/ManutencaoController";
+import ContratoController from "../controllers/gerencia/ContratoController";
 
 // Middlewares
 import FuncionarioValidation from "../middlewares/gerencia/FuncionarioValidation";
 import ItemValidation from "../middlewares/gerencia/ItemValidation";
 import ManutencaoValidation from "../middlewares/gerencia/ManutencaoValidation";
+import ContratoValidation from "../middlewares/gerencia/ContratoValidation";
 import Autenticacao from "../middlewares/autenticacao";
 import Validacao from "../middlewares/validacao";
 
@@ -19,6 +21,7 @@ export default class GerenciaRoutes {
   private funcionarioController: FuncionarioController;
   private itemController: ItemController;
   private manutencaoController: ManutencaoController;
+  private contratoController: ContratoController;
 
   // Middlewares
   private autenticacao: Autenticacao;
@@ -26,6 +29,7 @@ export default class GerenciaRoutes {
   private funcionarioValidation: FuncionarioValidation;
   private itemValidation: ItemValidation;
   private manutencaoValidation: ManutencaoValidation;
+  private contratoValidation: ContratoValidation;
 
   constructor(conexao: Pool | undefined) {
     this.funcionarioController = new FuncionarioController(conexao);
@@ -36,6 +40,8 @@ export default class GerenciaRoutes {
     this.itemValidation = new ItemValidation();
     this.manutencaoController = new ManutencaoController(conexao);
     this.manutencaoValidation = new ManutencaoValidation();
+    this.contratoController = new ContratoController(conexao);
+    this.contratoValidation = new ContratoValidation();
   }
 
   public funcionarioRoutes(): Router {
@@ -186,6 +192,52 @@ export default class GerenciaRoutes {
       this.manutencaoValidation.verificarPermissoes(),
       this.validacao.validar,
       this.manutencaoController.excluirManutencao
+    );
+
+    return roteador;
+  }
+
+  public contratoRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.get(
+      "/",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.contratoController.listarContratos
+    );
+
+    roteador.post(
+      "/",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.criarContratoValidacao(),
+      this.validacao.validar,
+      this.contratoController.criarContrato
+    );
+
+    roteador.get(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.contratoController.buscarContratoPorId
+    );
+
+    roteador.put(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.editarContratoValidacao(),
+      this.validacao.validar,
+      this.contratoController.editarContrato
+    );
+
+    roteador.delete(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.contratoController.excluirContrato
     );
 
     return roteador;

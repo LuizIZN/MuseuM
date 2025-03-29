@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS emprestimo (
     data_emprestimo DATE NOT NULL DEFAULT CURRENT_DATE,
     data_devolucao DATE NOT NULL CHECK (data_devolucao > data_emprestimo),
     visitante_id INTEGER REFERENCES visitante (id) ON DELETE SET NULL ON UPDATE CASCADE,
+    item_id INTEGER REFERENCES item (id) ON DELETE SET NULL ON UPDATE CASCADE,
     atendente_id INTEGER REFERENCES atendente (id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 

@@ -122,12 +122,12 @@ INSERT INTO contrato (descricao, valor, gerente_id, pessoa_juridica_id) VALUES
 ('Contrato 5', 2500.00, 4, 5);
 
 -- Inserções para emprestimo (5 empréstimos)
-INSERT INTO emprestimo (cod_emprestimo, data_emprestimo, data_devolucao, visitante_id, atendente_id) VALUES
-('EMP001', '2024-01-01', '2024-02-01', 1, 1),
-('EMP002', '2024-02-01', '2024-03-01', 2, 2),
-('EMP003', '2024-03-01', '2024-04-01', 3, 3),
-('EMP004', '2024-04-01', '2024-05-01', 4, 4),
-('EMP005', '2024-05-01', '2024-06-01', 5, 5);
+INSERT INTO emprestimo (cod_emprestimo, data_emprestimo, data_devolucao, visitante_id, atendente_id, item_id) VALUES
+('EMP001', '2024-01-01', '2024-02-01', 1, 1, 1),
+('EMP002', '2024-02-01', '2024-03-01', 2, 2, 2),
+('EMP003', '2024-03-01', '2024-04-01', 3, 3, 3),
+('EMP004', '2024-04-01', '2024-05-01', 4, 4, 4),
+('EMP005', '2024-05-01', '2024-06-01', 5, 5, 5);
 
 -- Inserções para evento (5 eventos)
 INSERT INTO evento (titulo, tipo, horario, coordenador, duracao, descricao, diretor_id) VALUES

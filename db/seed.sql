@@ -131,11 +131,11 @@ INSERT INTO emprestimo (cod_emprestimo, data_emprestimo, data_devolucao, visitan
 
 -- Inserções para evento (5 eventos)
 INSERT INTO evento (titulo, tipo, horario, coordenador, duracao, descricao, diretor_id) VALUES
-('Evento 1', 'Tipo 1', '10:00:00', 'Coordenador 1', '2 horas', 'Descrição 1', 1),
-('Evento 2', 'Tipo 2', '11:00:00', 'Coordenador 2', '3 horas', 'Descrição 2', 2),
-('Evento 3', 'Tipo 3', '12:00:00', 'Coordenador 3', '4 horas', 'Descrição 3', 3),
-('Evento 4', 'Tipo 4', '13:00:00', 'Coordenador 4', '5 horas', 'Descrição 4', 4),
-('Evento 5', 'Tipo 5', '14:00:00', 'Coordenador 5', '6 horas', 'Descrição 5', 5);
+('Evento 1', 'Tipo 1', '10:00:00', 'Coordenador 1', ARRAY[DATE '2024-01-01'], 'Descrição 1', 1),
+('Evento 2', 'Tipo 2', '11:00:00', 'Coordenador 2', ARRAY[DATE '2024-01-01'], 'Descrição 2', 2),
+('Evento 3', 'Tipo 3', '12:00:00', 'Coordenador 3', ARRAY[DATE '2024-01-01'], 'Descrição 3', 3),
+('Evento 4', 'Tipo 4', '13:00:00', 'Coordenador 4', ARRAY[DATE '2024-01-01'], 'Descrição 4', 4),
+('Evento 5', 'Tipo 5', '14:00:00', 'Coordenador 5', ARRAY[DATE '2024-01-01'], 'Descrição 5', 5);
 
 -- Inserções para exposicao (5 exposições)
 INSERT INTO exposicao (titulo, dias, descricao, diretor_id) VALUES

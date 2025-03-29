@@ -14,7 +14,7 @@ class ItemController {
 
   public criarItem = async (req: Request, res: Response): Promise<void> => {
     const { nome, codigo, classificacao, estado_conservacao } = req.body;
-
+  
     try {
       const itemExistente = await this.conexao?.query(
         "SELECT * FROM museum.item WHERE cod_item = $1",

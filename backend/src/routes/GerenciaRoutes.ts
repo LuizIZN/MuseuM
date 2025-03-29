@@ -5,10 +5,12 @@ import { type Pool } from "pg";
 // Controllers
 import FuncionarioController from "../controllers/gerencia/FuncionarioController";
 import ItemController from "../controllers/gerencia/ItemController";
+import ManutencaoController from "../controllers/gerencia/ManutencaoController";
 
 // Middlewares
 import FuncionarioValidation from "../middlewares/gerencia/FuncionarioValidation";
 import ItemValidation from "../middlewares/gerencia/ItemValidation";
+import ManutencaoValidation from "../middlewares/gerencia/ManutencaoValidation";
 import Autenticacao from "../middlewares/autenticacao";
 import Validacao from "../middlewares/validacao";
 
@@ -16,12 +18,14 @@ export default class GerenciaRoutes {
   //Controllers
   private funcionarioController: FuncionarioController;
   private itemController: ItemController;
+  private manutencaoController: ManutencaoController;
 
   // Middlewares
   private autenticacao: Autenticacao;
   private validacao: Validacao;
   private funcionarioValidation: FuncionarioValidation;
   private itemValidation: ItemValidation;
+  private manutencaoValidation: ManutencaoValidation;
 
   constructor(conexao: Pool | undefined) {
     this.funcionarioController = new FuncionarioController(conexao);
@@ -30,6 +34,8 @@ export default class GerenciaRoutes {
     this.validacao = new Validacao();
     this.funcionarioValidation = new FuncionarioValidation();
     this.itemValidation = new ItemValidation();
+    this.manutencaoController = new ManutencaoController(conexao);
+    this.manutencaoValidation = new ManutencaoValidation();
   }
 
   public funcionarioRoutes(): Router {
@@ -134,6 +140,52 @@ export default class GerenciaRoutes {
       this.itemValidation.excluirItemValidacao(),
       this.validacao.validar,
       this.itemController.excluirItem
+    );
+
+    return roteador;
+  }
+
+  public manutencaoRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.get(
+      "/",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.manutencaoController.listarManutencoes
+    );
+
+    roteador.post(
+      "/",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.criarManutencaoValidacao(),
+      this.validacao.validar,
+      this.manutencaoController.criarManutencao
+    );
+
+    roteador.get(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.manutencaoController.buscarManutencaoPorId
+    );
+
+    roteador.put(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.editarManutencaoValidacao(),
+      this.validacao.validar,
+      this.manutencaoController.editarManutencao
+    );
+
+    roteador.delete(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.manutencaoController.excluirManutencao
     );
 
     return roteador;

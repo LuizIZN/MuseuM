@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS evento (
     tipo VARCHAR(60),
     horario TIME NOT NULL,
     coordenador VARCHAR(70),
-    duracao VARCHAR(70) NOT NULL,
+    duracao DATE[] NOT NULL,
     descricao VARCHAR(200) NOT NULL,
     diretor_id INTEGER REFERENCES diretor (id) ON DELETE SET NULL ON UPDATE CASCADE
 );

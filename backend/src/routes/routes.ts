@@ -48,6 +48,7 @@ export default class Roteador {
       return;
     }
     this.roteador.use("/noticias", this.direcaoRoutes.noticiaRoutes());
+    this.roteador.use("/exposicoes", this.direcaoRoutes.exposicaoRoutes());
   }
 
   private setAtendimentoRoutes(): void {

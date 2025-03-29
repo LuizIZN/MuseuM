@@ -49,6 +49,7 @@ export default class Roteador {
     }
     this.roteador.use("/noticias", this.direcaoRoutes.noticiaRoutes());
     this.roteador.use("/exposicoes", this.direcaoRoutes.exposicaoRoutes());
+    this.roteador.use("/eventos", this.direcaoRoutes.eventoRoutes());
   }
 
   private setAtendimentoRoutes(): void {

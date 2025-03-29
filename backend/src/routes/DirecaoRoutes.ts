@@ -7,23 +7,27 @@ import Validacao from "../middlewares/validacao";
 //Controllers
 import NoticiaController from "../controllers/direcao/NoticiaController";
 import ExposicaoController from "../controllers/direcao/ExposicaoController";   
+import EventoController from "../controllers/direcao/EventoController";
 
 
 //Middlewares
 import NoticiaValidation from "../middlewares/direcao/NoticiaValidation";
 import ExposicaoValidation from "../middlewares/direcao/ExposicaoValidation";
+import EventoValidation from "../middlewares/direcao/EventoValidation";
 
 
 export default class DirecaoRoutes {
     //Controllers
     private noticiaController: NoticiaController;
     private exposicaoController: ExposicaoController;
+    private eventoController: EventoController;
 
     //Middlewares
     private exposicaoValidation: ExposicaoValidation;
     private autenticacao: Autenticacao;
     private validacao: Validacao;
     private noticiaValidation: NoticiaValidation;
+    private eventoValidation: EventoValidation;
     
     constructor(conexao: Pool | undefined) {
         this.exposicaoController = new ExposicaoController(conexao);
@@ -32,6 +36,8 @@ export default class DirecaoRoutes {
         this.validacao = new Validacao();
         this.noticiaController = new NoticiaController(conexao);
         this.noticiaValidation = new NoticiaValidation();
+        this.eventoController = new EventoController(conexao);
+        this.eventoValidation = new EventoValidation();
     }
 
     public noticiaRoutes(): Router {
@@ -121,6 +127,52 @@ export default class DirecaoRoutes {
           this.exposicaoValidation.excluirExposicaoValidacao(),
           this.validacao.validar,
           this.exposicaoController.excluirExposicao
+        );
+    
+        return roteador;
+    }
+
+    public eventoRoutes(): Router {
+        const roteador = express.Router();
+    
+        roteador.get(
+          "/",
+          this.autenticacao.autenticacao,
+          this.eventoValidation.verificarPermissoesConsulta(),
+          this.validacao.validar,
+          this.eventoController.listarEventos
+        );
+    
+        roteador.post(
+          "/",
+          this.autenticacao.autenticacao,
+          ...this.eventoValidation.criarEditarEventoValidacao(),
+          this.validacao.validar,
+          this.eventoController.criarEvento
+        );
+    
+        roteador.get(
+          "/:id",
+          this.autenticacao.autenticacao,
+          this.eventoValidation.verificarPermissoesConsulta(),
+          this.validacao.validar,
+          this.eventoController.buscarEventoPorId
+        );
+    
+        roteador.put(
+          "/:id",
+          this.autenticacao.autenticacao,
+          ...this.eventoValidation.criarEditarEventoValidacao(),
+          this.validacao.validar,
+          this.eventoController.editarEvento
+        );
+    
+        roteador.delete(
+          "/:id",
+          this.autenticacao.autenticacao,
+          this.eventoValidation.verificarPermissoes(),
+          this.validacao.validar,
+          this.eventoController.excluirEvento
         );
     
         return roteador;

@@ -1,6 +1,6 @@
-import { type Pool } from "pg";
 import { type Router } from "express";
 import express from "express";
+import { type Pool } from "pg";
 import Autenticacao from "../middlewares/autenticacao";
 import Validacao from "../middlewares/validacao";
 

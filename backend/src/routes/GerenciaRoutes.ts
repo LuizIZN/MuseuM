@@ -9,6 +9,7 @@ import ManutencaoController from "../controllers/gerencia/ManutencaoController";
 import ContratoController from "../controllers/gerencia/ContratoController";
 import VendaController from "../controllers/gerencia/VendaController";
 import DoacaoController from "../controllers/gerencia/DoacaoController";
+import HorarioFuncionamentoController from "../controllers/direcao/HorarioFuncionamentoController";
 
 // Middlewares
 import FuncionarioValidation from "../middlewares/gerencia/FuncionarioValidation";
@@ -17,6 +18,7 @@ import ManutencaoValidation from "../middlewares/gerencia/ManutencaoValidation";
 import ContratoValidation from "../middlewares/gerencia/ContratoValidation";
 import VendaValidation from "../middlewares/gerencia/VendaValidation";
 import DoacaoValidation from "../middlewares/gerencia/DoacaoValidation";
+import HorarioFuncionamentoValidation from "../middlewares/direcao/HorarioFuncionamentoValidation";
 import Autenticacao from "../middlewares/autenticacao";
 import Validacao from "../middlewares/validacao";
 
@@ -28,6 +30,7 @@ export default class GerenciaRoutes {
   private contratoController: ContratoController;
   private vendaController: VendaController;
   private doacaoController: DoacaoController;
+  private horarioFuncionamentoController: HorarioFuncionamentoController;
 
   // Middlewares
   private autenticacao: Autenticacao;
@@ -38,6 +41,7 @@ export default class GerenciaRoutes {
   private contratoValidation: ContratoValidation;
   private vendaValidation: VendaValidation;
   private doacaoValidation: DoacaoValidation;
+  private horarioFuncionamentoValidation: HorarioFuncionamentoValidation;  
 
   constructor(conexao: Pool | undefined) {
     this.funcionarioController = new FuncionarioController(conexao);
@@ -54,6 +58,8 @@ export default class GerenciaRoutes {
     this.vendaValidation = new VendaValidation();
     this.doacaoController = new DoacaoController(conexao);
     this.doacaoValidation = new DoacaoValidation();
+    this.horarioFuncionamentoController = new HorarioFuncionamentoController(conexao);
+    this.horarioFuncionamentoValidation = new HorarioFuncionamentoValidation();
   }
 
   public funcionarioRoutes(): Router {
@@ -342,6 +348,43 @@ export default class GerenciaRoutes {
       this.doacaoValidation.verificarPermissoes(),
       this.validacao.validar,
       this.doacaoController.excluirDoacao
+    );
+
+    return roteador;
+  }
+
+  public horarioFuncionamentoRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.get(
+        "/",
+        this.autenticacao.autenticacao,
+        this.validacao.validar,
+        this.horarioFuncionamentoController.listarHorarioFuncionamento
+    );
+
+    roteador.post(
+        "/",
+        this.autenticacao.autenticacao,
+        this.horarioFuncionamentoValidation.criarHorarioValidacao(),
+        this.validacao.validar,
+        this.horarioFuncionamentoController.criarHorarioFuncionamento
+    );
+
+    roteador.put(
+        "/:id",
+        this.autenticacao.autenticacao,
+        this.horarioFuncionamentoValidation.editarHorarioValidacao(),
+        this.validacao.validar,
+        this.horarioFuncionamentoController.editarHorarioFuncionamento
+    );
+
+    roteador.delete(
+        "/:id",
+        this.autenticacao.autenticacao,
+        this.horarioFuncionamentoValidation.excluirHorarioValidacao(),
+        this.validacao.validar,
+        this.horarioFuncionamentoController.excluirHorarioFuncionamento
     );
 
     return roteador;

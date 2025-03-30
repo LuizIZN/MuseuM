@@ -7,12 +7,14 @@ import FuncionarioController from "../controllers/gerencia/FuncionarioController
 import ItemController from "../controllers/gerencia/ItemController";
 import ManutencaoController from "../controllers/gerencia/ManutencaoController";
 import ContratoController from "../controllers/gerencia/ContratoController";
+import VendaController from "../controllers/gerencia/VendaController";
 
 // Middlewares
 import FuncionarioValidation from "../middlewares/gerencia/FuncionarioValidation";
 import ItemValidation from "../middlewares/gerencia/ItemValidation";
 import ManutencaoValidation from "../middlewares/gerencia/ManutencaoValidation";
 import ContratoValidation from "../middlewares/gerencia/ContratoValidation";
+import VendaValidation from "../middlewares/gerencia/VendaValidation";
 import Autenticacao from "../middlewares/autenticacao";
 import Validacao from "../middlewares/validacao";
 
@@ -22,6 +24,7 @@ export default class GerenciaRoutes {
   private itemController: ItemController;
   private manutencaoController: ManutencaoController;
   private contratoController: ContratoController;
+  private vendaController: VendaController
 
   // Middlewares
   private autenticacao: Autenticacao;
@@ -30,6 +33,7 @@ export default class GerenciaRoutes {
   private itemValidation: ItemValidation;
   private manutencaoValidation: ManutencaoValidation;
   private contratoValidation: ContratoValidation;
+  private vendaValidation: VendaValidation
 
   constructor(conexao: Pool | undefined) {
     this.funcionarioController = new FuncionarioController(conexao);
@@ -42,6 +46,8 @@ export default class GerenciaRoutes {
     this.manutencaoValidation = new ManutencaoValidation();
     this.contratoController = new ContratoController(conexao);
     this.contratoValidation = new ContratoValidation();
+    this.vendaController = new VendaController(conexao);
+    this.vendaValidation = new VendaValidation();
   }
 
   public funcionarioRoutes(): Router {
@@ -238,6 +244,52 @@ export default class GerenciaRoutes {
       this.contratoValidation.verificarPermissoes(),
       this.validacao.validar,
       this.contratoController.excluirContrato
+    );
+
+    return roteador;
+  }
+
+  public vendaRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.post(
+      "/",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.criarVendaValidacao(),
+      this.validacao.validar,
+      this.vendaController.criarVenda
+    );
+
+    roteador.get(
+      "/",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.vendaController.listarVendas
+    );
+
+    roteador.get(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.vendaController.buscarVendaPorId
+    );
+
+    roteador.put(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.editarVendaValidacao(),
+      this.validacao.validar,
+      this.vendaController.editarVenda
+    );
+
+    roteador.delete(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.vendaController.excluirVenda
     );
 
     return roteador;

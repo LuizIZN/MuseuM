@@ -43,6 +43,7 @@ export default class Roteador {
     this.roteador.use("/itens", this.gerenciaRoutes.itemRoutes());
     this.roteador.use("/manutencoes", this.gerenciaRoutes.manutencaoRoutes());
     this.roteador.use("/contratos", this.gerenciaRoutes.contratoRoutes());
+    this.roteador.use("/vendas", this.gerenciaRoutes.vendaRoutes());
   }
 
   private setDirecaoRoutes(): void {

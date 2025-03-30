@@ -8,6 +8,7 @@ import ItemController from "../controllers/gerencia/ItemController";
 import ManutencaoController from "../controllers/gerencia/ManutencaoController";
 import ContratoController from "../controllers/gerencia/ContratoController";
 import VendaController from "../controllers/gerencia/VendaController";
+import DoacaoController from "../controllers/gerencia/DoacaoController";
 
 // Middlewares
 import FuncionarioValidation from "../middlewares/gerencia/FuncionarioValidation";
@@ -15,6 +16,7 @@ import ItemValidation from "../middlewares/gerencia/ItemValidation";
 import ManutencaoValidation from "../middlewares/gerencia/ManutencaoValidation";
 import ContratoValidation from "../middlewares/gerencia/ContratoValidation";
 import VendaValidation from "../middlewares/gerencia/VendaValidation";
+import DoacaoValidation from "../middlewares/gerencia/DoacaoValidation";
 import Autenticacao from "../middlewares/autenticacao";
 import Validacao from "../middlewares/validacao";
 
@@ -24,7 +26,8 @@ export default class GerenciaRoutes {
   private itemController: ItemController;
   private manutencaoController: ManutencaoController;
   private contratoController: ContratoController;
-  private vendaController: VendaController
+  private vendaController: VendaController;
+  private doacaoController: DoacaoController;
 
   // Middlewares
   private autenticacao: Autenticacao;
@@ -33,7 +36,8 @@ export default class GerenciaRoutes {
   private itemValidation: ItemValidation;
   private manutencaoValidation: ManutencaoValidation;
   private contratoValidation: ContratoValidation;
-  private vendaValidation: VendaValidation
+  private vendaValidation: VendaValidation;
+  private doacaoValidation: DoacaoValidation;
 
   constructor(conexao: Pool | undefined) {
     this.funcionarioController = new FuncionarioController(conexao);
@@ -48,6 +52,8 @@ export default class GerenciaRoutes {
     this.contratoValidation = new ContratoValidation();
     this.vendaController = new VendaController(conexao);
     this.vendaValidation = new VendaValidation();
+    this.doacaoController = new DoacaoController(conexao);
+    this.doacaoValidation = new DoacaoValidation();
   }
 
   public funcionarioRoutes(): Router {
@@ -290,6 +296,52 @@ export default class GerenciaRoutes {
       this.vendaValidation.verificarPermissoes(),
       this.validacao.validar,
       this.vendaController.excluirVenda
+    );
+
+    return roteador;
+  }
+
+  public doacaoRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.post(
+      "/",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.criarDoacaoValidacao(),
+      this.validacao.validar,
+      this.doacaoController.criarDoacao
+    );
+
+    roteador.get(
+      "/",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.doacaoController.listarDoacoes
+    );
+
+    roteador.get(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.doacaoController.buscarDoacaoPorId
+    );
+
+    roteador.put(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.editarDoacaoValidacao(),
+      this.validacao.validar,
+      this.doacaoController.editarDoacao
+    );
+
+    roteador.delete(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.doacaoController.excluirDoacao
     );
 
     return roteador;

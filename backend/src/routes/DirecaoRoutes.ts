@@ -3,10 +3,10 @@ import express from "express";
 import { type Pool } from "pg";
 
 // Controllers
-import HorarioFuncionamentoController from "../controllers/direcao/HorarioFuncionamento";
+import HorarioFuncionamentoController from "../controllers/direcao/HorarioFuncionamentoController";
 
 // Middlewares
-import HorarioFuncionamentoValidation from "../middlewares/direcao/horarioFuncionamento";
+import HorarioFuncionamentoValidation from "../middlewares/direcao/HorarioFuncionamentoValidation";
 import Autenticacao from "../middlewares/autenticacao";
 import Validacao from "../middlewares/validacao";
 

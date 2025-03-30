@@ -122,20 +122,20 @@ INSERT INTO contrato (descricao, valor, gerente_id, pessoa_juridica_id) VALUES
 ('Contrato 5', 2500.00, 4, 5);
 
 -- Inserções para emprestimo (5 empréstimos)
-INSERT INTO emprestimo (cod_emprestimo, data_emprestimo, data_devolucao, visitante_id, atendente_id) VALUES
-('EMP001', '2024-01-01', '2024-02-01', 1, 1),
-('EMP002', '2024-02-01', '2024-03-01', 2, 2),
-('EMP003', '2024-03-01', '2024-04-01', 3, 3),
-('EMP004', '2024-04-01', '2024-05-01', 4, 4),
-('EMP005', '2024-05-01', '2024-06-01', 5, 5);
+INSERT INTO emprestimo (cod_emprestimo, data_emprestimo, data_devolucao, visitante_id, atendente_id, item_id) VALUES
+('EMP001', '2024-01-01', '2024-02-01', 1, 1, 1),
+('EMP002', '2024-02-01', '2024-03-01', 2, 2, 2),
+('EMP003', '2024-03-01', '2024-04-01', 3, 3, 3),
+('EMP004', '2024-04-01', '2024-05-01', 4, 4, 4),
+('EMP005', '2024-05-01', '2024-06-01', 5, 5, 5);
 
 -- Inserções para evento (5 eventos)
 INSERT INTO evento (titulo, tipo, horario, coordenador, duracao, descricao, diretor_id) VALUES
-('Evento 1', 'Tipo 1', '10:00:00', 'Coordenador 1', '2 horas', 'Descrição 1', 1),
-('Evento 2', 'Tipo 2', '11:00:00', 'Coordenador 2', '3 horas', 'Descrição 2', 2),
-('Evento 3', 'Tipo 3', '12:00:00', 'Coordenador 3', '4 horas', 'Descrição 3', 3),
-('Evento 4', 'Tipo 4', '13:00:00', 'Coordenador 4', '5 horas', 'Descrição 4', 4),
-('Evento 5', 'Tipo 5', '14:00:00', 'Coordenador 5', '6 horas', 'Descrição 5', 5);
+('Evento 1', 'Tipo 1', '10:00:00', 'Coordenador 1', ARRAY[DATE '2024-01-01'], 'Descrição 1', 1),
+('Evento 2', 'Tipo 2', '11:00:00', 'Coordenador 2', ARRAY[DATE '2024-01-01'], 'Descrição 2', 2),
+('Evento 3', 'Tipo 3', '12:00:00', 'Coordenador 3', ARRAY[DATE '2024-01-01'], 'Descrição 3', 3),
+('Evento 4', 'Tipo 4', '13:00:00', 'Coordenador 4', ARRAY[DATE '2024-01-01'], 'Descrição 4', 4),
+('Evento 5', 'Tipo 5', '14:00:00', 'Coordenador 5', ARRAY[DATE '2024-01-01'], 'Descrição 5', 5);
 
 -- Inserções para exposicao (5 exposições)
 INSERT INTO exposicao (titulo, dias, descricao, diretor_id) VALUES

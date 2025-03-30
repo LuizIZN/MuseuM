@@ -3,40 +3,74 @@ import { Pool } from "pg";
 import GerenciaRoutes from "./GerenciaRoutes";
 import DirecaoRoutes from "./DirecaoRoutes";
 import Banco from "../config/db";
+import AtendenteRoutes from "./AtendimenteRoutes";
 
 export default class Roteador {
-    private conexao: Pool | undefined;
-    private roteador: express.Router;
-    private gerenciaRoutes: GerenciaRoutes;
-    private direcaoRoutes: DirecaoRoutes;
-    private banco: Banco;
+  private conexao: Pool | undefined;
+  private roteador: express.Router;
+  private gerenciaRoutes: GerenciaRoutes | undefined;
+  private direcaoRoutes: DirecaoRoutes | undefined;
+  private atendimentoRoutes: AtendenteRoutes | undefined;
+  private banco: Banco;
 
-    constructor() {
-        this.banco = new Banco();
-        this.conexao = this.banco.criarConexao();
-        this.roteador = express.Router();
+  constructor() {
+    this.banco = new Banco();
+    this.banco
+      .criarConexao()
+      .then((conexao) => {
+        this.conexao = conexao;
+        console.log("Conexão com o banco de dados estabelecida!");
+
         this.gerenciaRoutes = new GerenciaRoutes(this.conexao);
         this.direcaoRoutes = new DirecaoRoutes(this.conexao);
-    }
-
-    private setGerenciaRoutes(): void {
-        this.roteador.use("/funcionarios", this.gerenciaRoutes.funcionarioRoutes());
-        this.roteador.use("/itens", this.gerenciaRoutes.itemRoutes());
-    }
-
-    private setDirecaoRoutes(): void {
-        this.roteador.use("/horario-funcionamento", this.direcaoRoutes.horarioFuncionamentoRoutes());
-    }
-
-    private setAtendimentoRoutes(): void {
-        // Configurar rotas de atendimento, se necessário
-    }
-
-    public rotas(): express.Router {
-        this.setGerenciaRoutes();
+        this.atendimentoRoutes = new AtendenteRoutes(this.conexao);
         this.setDirecaoRoutes();
+        this.setGerenciaRoutes();
         this.setAtendimentoRoutes();
+      })
+      .catch((erro) => {
+        console.error("Erro ao conectar ao banco de dados!", erro);
+        process.exit(1);
+      });
+    this.roteador = express.Router();
+  }
 
-        return this.roteador;
+  private setGerenciaRoutes(): void {
+    if (!this.gerenciaRoutes) {
+      return;
     }
+    this.roteador.use("/funcionarios", this.gerenciaRoutes.funcionarioRoutes());
+    this.roteador.use("/itens", this.gerenciaRoutes.itemRoutes());
+    this.roteador.use("/manutencoes", this.gerenciaRoutes.manutencaoRoutes());
+    this.roteador.use("/contratos", this.gerenciaRoutes.contratoRoutes());
+    this.roteador.use("/vendas", this.gerenciaRoutes.vendaRoutes());
+    this.roteador.use("/doacoes", this.gerenciaRoutes.doacaoRoutes());
+    this.roteador.use("/horarios", this.gerenciaRoutes.horarioFuncionamentoRoutes());
+  }
+
+  private setDirecaoRoutes(): void {
+    if (!this.direcaoRoutes) {
+      return;
+    }
+    this.roteador.use("/noticias", this.direcaoRoutes.noticiaRoutes());
+    this.roteador.use("/exposicoes", this.direcaoRoutes.exposicaoRoutes());
+    this.roteador.use("/eventos", this.direcaoRoutes.eventoRoutes());
+  }
+
+  private setAtendimentoRoutes(): void {
+    if (!this.atendimentoRoutes) {
+      return;
+    }
+    this.roteador.use("/visitantes", this.atendimentoRoutes.visitanteRoutes());
+    this.roteador.use("/visitas", this.atendimentoRoutes.visitaRoutes());
+    this.roteador.use("/emprestimos", this.atendimentoRoutes.emprestimoRoutes());
+  }
+
+  public rotas(): express.Router {
+    this.setGerenciaRoutes();
+    this.setDirecaoRoutes();
+    this.setAtendimentoRoutes();
+
+    return this.roteador;
+  }
 }

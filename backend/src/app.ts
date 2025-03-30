@@ -31,7 +31,7 @@ class App {
 
     public executar(porta: number): void {
         this.app.listen(porta, () => {
-            console.log(`Servidor rodando na porta ${porta}`);
+            console.log(`Servidor rodando em ${process.env.APP_HOST}:${porta}`);
         });
     }
 }

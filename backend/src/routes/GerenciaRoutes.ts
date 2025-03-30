@@ -5,10 +5,20 @@ import { type Pool } from "pg";
 // Controllers
 import FuncionarioController from "../controllers/gerencia/FuncionarioController";
 import ItemController from "../controllers/gerencia/ItemController";
+import ManutencaoController from "../controllers/gerencia/ManutencaoController";
+import ContratoController from "../controllers/gerencia/ContratoController";
+import VendaController from "../controllers/gerencia/VendaController";
+import DoacaoController from "../controllers/gerencia/DoacaoController";
+import HorarioFuncionamentoController from "../controllers/direcao/HorarioFuncionamentoController";
 
 // Middlewares
 import FuncionarioValidation from "../middlewares/gerencia/FuncionarioValidation";
 import ItemValidation from "../middlewares/gerencia/ItemValidation";
+import ManutencaoValidation from "../middlewares/gerencia/ManutencaoValidation";
+import ContratoValidation from "../middlewares/gerencia/ContratoValidation";
+import VendaValidation from "../middlewares/gerencia/VendaValidation";
+import DoacaoValidation from "../middlewares/gerencia/DoacaoValidation";
+import HorarioFuncionamentoValidation from "../middlewares/direcao/HorarioFuncionamentoValidation";
 import Autenticacao from "../middlewares/autenticacao";
 import Validacao from "../middlewares/validacao";
 
@@ -16,12 +26,22 @@ export default class GerenciaRoutes {
   //Controllers
   private funcionarioController: FuncionarioController;
   private itemController: ItemController;
+  private manutencaoController: ManutencaoController;
+  private contratoController: ContratoController;
+  private vendaController: VendaController;
+  private doacaoController: DoacaoController;
+  private horarioFuncionamentoController: HorarioFuncionamentoController;
 
   // Middlewares
   private autenticacao: Autenticacao;
   private validacao: Validacao;
   private funcionarioValidation: FuncionarioValidation;
   private itemValidation: ItemValidation;
+  private manutencaoValidation: ManutencaoValidation;
+  private contratoValidation: ContratoValidation;
+  private vendaValidation: VendaValidation;
+  private doacaoValidation: DoacaoValidation;
+  private horarioFuncionamentoValidation: HorarioFuncionamentoValidation;  
 
   constructor(conexao: Pool | undefined) {
     this.funcionarioController = new FuncionarioController(conexao);
@@ -30,6 +50,16 @@ export default class GerenciaRoutes {
     this.validacao = new Validacao();
     this.funcionarioValidation = new FuncionarioValidation();
     this.itemValidation = new ItemValidation();
+    this.manutencaoController = new ManutencaoController(conexao);
+    this.manutencaoValidation = new ManutencaoValidation();
+    this.contratoController = new ContratoController(conexao);
+    this.contratoValidation = new ContratoValidation();
+    this.vendaController = new VendaController(conexao);
+    this.vendaValidation = new VendaValidation();
+    this.doacaoController = new DoacaoController(conexao);
+    this.doacaoValidation = new DoacaoValidation();
+    this.horarioFuncionamentoController = new HorarioFuncionamentoController(conexao);
+    this.horarioFuncionamentoValidation = new HorarioFuncionamentoValidation();
   }
 
   public funcionarioRoutes(): Router {
@@ -134,6 +164,227 @@ export default class GerenciaRoutes {
       this.itemValidation.excluirItemValidacao(),
       this.validacao.validar,
       this.itemController.excluirItem
+    );
+
+    return roteador;
+  }
+
+  public manutencaoRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.get(
+      "/",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.manutencaoController.listarManutencoes
+    );
+
+    roteador.post(
+      "/",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.criarManutencaoValidacao(),
+      this.validacao.validar,
+      this.manutencaoController.criarManutencao
+    );
+
+    roteador.get(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.manutencaoController.buscarManutencaoPorId
+    );
+
+    roteador.put(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.editarManutencaoValidacao(),
+      this.validacao.validar,
+      this.manutencaoController.editarManutencao
+    );
+
+    roteador.delete(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.manutencaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.manutencaoController.excluirManutencao
+    );
+
+    return roteador;
+  }
+
+  public contratoRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.get(
+      "/",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.contratoController.listarContratos
+    );
+
+    roteador.post(
+      "/",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.criarContratoValidacao(),
+      this.validacao.validar,
+      this.contratoController.criarContrato
+    );
+
+    roteador.get(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.contratoController.buscarContratoPorId
+    );
+
+    roteador.put(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.editarContratoValidacao(),
+      this.validacao.validar,
+      this.contratoController.editarContrato
+    );
+
+    roteador.delete(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.contratoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.contratoController.excluirContrato
+    );
+
+    return roteador;
+  }
+
+  public vendaRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.post(
+      "/",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.criarVendaValidacao(),
+      this.validacao.validar,
+      this.vendaController.criarVenda
+    );
+
+    roteador.get(
+      "/",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.vendaController.listarVendas
+    );
+
+    roteador.get(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.vendaController.buscarVendaPorId
+    );
+
+    roteador.put(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.editarVendaValidacao(),
+      this.validacao.validar,
+      this.vendaController.editarVenda
+    );
+
+    roteador.delete(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.vendaValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.vendaController.excluirVenda
+    );
+
+    return roteador;
+  }
+
+  public doacaoRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.post(
+      "/",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.criarDoacaoValidacao(),
+      this.validacao.validar,
+      this.doacaoController.criarDoacao
+    );
+
+    roteador.get(
+      "/",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.doacaoController.listarDoacoes
+    );
+
+    roteador.get(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.doacaoController.buscarDoacaoPorId
+    );
+
+    roteador.put(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.editarDoacaoValidacao(),
+      this.validacao.validar,
+      this.doacaoController.editarDoacao
+    );
+
+    roteador.delete(
+      "/:id",
+      this.autenticacao.autenticacao,
+      this.doacaoValidation.verificarPermissoes(),
+      this.validacao.validar,
+      this.doacaoController.excluirDoacao
+    );
+
+    return roteador;
+  }
+
+  public horarioFuncionamentoRoutes(): Router {
+    const roteador = express.Router();
+
+    roteador.get(
+        "/",
+        this.autenticacao.autenticacao,
+        this.validacao.validar,
+        this.horarioFuncionamentoController.listarHorarioFuncionamento
+    );
+
+    roteador.post(
+        "/",
+        this.autenticacao.autenticacao,
+        this.horarioFuncionamentoValidation.criarHorarioValidacao(),
+        this.validacao.validar,
+        this.horarioFuncionamentoController.criarHorarioFuncionamento
+    );
+
+    roteador.put(
+        "/:id",
+        this.autenticacao.autenticacao,
+        this.horarioFuncionamentoValidation.editarHorarioValidacao(),
+        this.validacao.validar,
+        this.horarioFuncionamentoController.editarHorarioFuncionamento
+    );
+
+    roteador.delete(
+        "/:id",
+        this.autenticacao.autenticacao,
+        this.horarioFuncionamentoValidation.excluirHorarioValidacao(),
+        this.validacao.validar,
+        this.horarioFuncionamentoController.excluirHorarioFuncionamento
     );
 
     return roteador;

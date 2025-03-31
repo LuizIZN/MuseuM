@@ -4,6 +4,7 @@ import GerenciaRoutes from "./GerenciaRoutes";
 import DirecaoRoutes from "./DirecaoRoutes";
 import Banco from "../config/db";
 import AtendenteRoutes from "./AtendimenteRoutes";
+import paginaRoutes from "./PaginaRoutes";
 
 export default class Roteador {
   private conexao: Pool | undefined;
@@ -70,6 +71,7 @@ export default class Roteador {
     this.setGerenciaRoutes();
     this.setDirecaoRoutes();
     this.setAtendimentoRoutes();
+    this.roteador.use("/paginas", paginaRoutes(this.conexao));
 
     return this.roteador;
   }

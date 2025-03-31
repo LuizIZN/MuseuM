@@ -1,0 +1,71 @@
+.btn-login {
+    background-color: #6c2bd9;
+    border: none;
+  }
+  
+  .btn-login:hover {
+    background-color: #5a23b3;
+  }
+  
+  .icon-purple {
+    color: #6c2bd9;
+  }
+  
+  .data-card {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+  }
+  
+  .bg-purple {
+    background-color: #6c2bd9;
+  }
+  
+  .nav-link {
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .nav-link.active {
+    background-color: #e9e3fc;
+    font-weight: 600;
+  }
+  
+  .emoji {
+    margin-right: 10px;
+    font-size: 18px;
+  } 
+
+  body {
+    background-color: #fff;
+  }
+  
+  .modal-content {
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  }
+  
+  .nav-link {
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .nav-link.active {
+    background-color: #e9e3fc;
+    font-weight: 600;
+  }
+  
+  .nav-link span.emoji {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  

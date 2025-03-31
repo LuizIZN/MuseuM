@@ -36,7 +36,7 @@ class Autenticacao {
   ): Promise<void> => {
     this.setToken(req);
     if (!this.getToken()) {
-      res.status(401).sendFile(path.join(__dirname, "../../../frontEnd/telas/restrito.html"));
+      res.status(401).sendFile(path.join(__dirname, "../views/telas/restrito.html"));
       return;
     }
 

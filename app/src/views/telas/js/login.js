@@ -1,5 +1,5 @@
 if (localStorage.getItem('usuario')) {
-  window.location.href = '/dashboard';
+  window.location.href = '/paginas/dashboard';
 }
 
 const login = async () => {

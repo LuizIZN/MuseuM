@@ -132,5 +132,15 @@ export default function paginaRoutes(
     }
   );
 
+  roteador.get(
+    "/eventos",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/eventos.html")
+      );
+    }
+  );
+
   return roteador;
 }

@@ -9,6 +9,7 @@ declare global {
 }
 
 import jwt from "jsonwebtoken";
+import path from "path";
 import { type Pool } from "pg";
 
 class Autenticacao {
@@ -35,7 +36,7 @@ class Autenticacao {
   ): Promise<void> => {
     this.setToken(req);
     if (!this.getToken()) {
-      res.status(401).json({ erros: ["Acesso negado!"] });
+      res.status(401).sendFile(path.join(__dirname, "../../../frontEnd/telas/restrito.html"));
       return;
     }
 
@@ -54,7 +55,7 @@ class Autenticacao {
 
       next();
     } catch (erro: any) {
-      res.status(401).json({ erros: ["Token inválido!"] });
+      res.status(401).sendFile(path.join(__dirname, "../views/telas/restrito.html"));
     }
   };
 }

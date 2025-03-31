@@ -8,34 +8,31 @@ const userType = usuario.cargo; // Mude para "gerente" "diretor" ou "atendente"
 
 const users = {
   atendente: {
-    nome: "Ana",
     menu: [
-      { emoji: "🏠", label: "Início", link: "dashboard.html" },
+      { emoji: "🏠", label: "Início", link: "/paginas/dashboard" },
       { emoji: "🧍", label: "Visitantes", link: "visitantes.html" },
       { emoji: "🔄", label: "Empréstimos", link: "emprestimos.html" },
       { emoji: "📰", label: "Notícias", link: "noticias.html" },
     ],
   },
   diretor: {
-    nome: "Paulo",
     menu: [
-      { emoji: "🏠", label: "Início", link: "dashboard.html" },
+      { emoji: "🏠", label: "Início", link: "/paginas/dashboard" },
       { emoji: "📆", label: "Eventos", link: "eventos.html" },
       { emoji: "📰", label: "Notícias", link: "noticias.html" },
       { emoji: "🖼️", label: "Exposições", link: "exposicoes.html" },
     ],
   },
   gerente: {
-    nome: "Thiago",
     menu: [
-      { emoji: "🏠", label: "Início", link: "dashboard.html" },
+      { emoji: "🏠", label: "Início", link: "/paginas/dashboard" },
       { emoji: "🗂️", label: "Itens", link: "itens.html" },
       { emoji: "🛠️", label: "Manutenções", link: "manutencoes.html" },
       { emoji: "💰", label: "Vendas", link: "vendas.html" },
       { emoji: "🎁", label: "Doações", link: "doacoes.html" },
       { emoji: "📄", label: "Contratos", link: "contratos.html" },
       { emoji: "⏰", label: "Horários", link: "horario.html" },
-      { emoji: "👥", label: "Funcionários", link: "funcionarios.html" },
+      { emoji: "👥", label: "Funcionários", link: "/paginas/funcionarios" },
     ],
   },
 };

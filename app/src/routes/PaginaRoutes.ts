@@ -5,6 +5,7 @@ import Autenticacao from "../middlewares/autenticacao";
 import { type Pool } from "pg";
 
 import FuncionarioValidation from "../middlewares/gerencia/FuncionarioValidation";
+import ManutencaoValidation from "../middlewares/gerencia/ManutencaoValidation";
 
 export default function paginaRoutes(
   conexao: Pool | undefined
@@ -13,6 +14,7 @@ export default function paginaRoutes(
   const autenticacao = new Autenticacao(conexao);
 
   const funcionarioValidation = new FuncionarioValidation();
+  const manutencaoValidation = new ManutencaoValidation();
 
   roteador.get("/login", (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, "../views/telas/login.html"));
@@ -35,6 +37,17 @@ export default function paginaRoutes(
     (req: Request, res: Response) => {
       res.sendFile(
         path.join(__dirname, "../views/telas/funcionarios.html")
+      );
+    }
+  );
+
+  roteador.get(
+    "/manutencoes",
+    manutencaoValidation.verificarPermissoes(),
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/manutencoes.html")
       );
     }
   );

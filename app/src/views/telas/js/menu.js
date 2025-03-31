@@ -10,29 +10,30 @@ const users = {
   atendente: {
     menu: [
       { emoji: "🏠", label: "Início", link: "/paginas/dashboard" },
-      { emoji: "🧍", label: "Visitantes", link: "visitantes.html" },
-      { emoji: "🔄", label: "Empréstimos", link: "emprestimos.html" },
-      { emoji: "📰", label: "Notícias", link: "noticias.html" },
+      { emoji: "🧍", label: "Visitantes", link: "/paginas/visitantes" },
+      { emoji: "🔄", label: "Empréstimos", link: "/paginas/emprestimos" },
+      { emoji: "📰", label: "Notícias", link: "/paginas/noticias" },
     ],
   },
   diretor: {
     menu: [
       { emoji: "🏠", label: "Início", link: "/paginas/dashboard" },
-      { emoji: "📆", label: "Eventos", link: "eventos.html" },
-      { emoji: "📰", label: "Notícias", link: "noticias.html" },
-      { emoji: "🖼️", label: "Exposições", link: "exposicoes.html" },
+      { emoji: "📆", label: "Eventos", link: "/paginas/eventos" },
+      { emoji: "📰", label: "Notícias", link: "/paginas/noticias" },
+      { emoji: "🖼️", label: "Exposições", link: "/paginas/exposicoes" },
     ],
   },
   gerente: {
     menu: [
       { emoji: "🏠", label: "Início", link: "/paginas/dashboard" },
-      { emoji: "🗂️", label: "Itens", link: "itens.html" },
-      { emoji: "🛠️", label: "Manutenções", link: "manutencoes.html" },
-      { emoji: "💰", label: "Vendas", link: "vendas.html" },
-      { emoji: "🎁", label: "Doações", link: "doacoes.html" },
-      { emoji: "📄", label: "Contratos", link: "contratos.html" },
-      { emoji: "⏰", label: "Horários", link: "horario.html" },
+      { emoji: "🗂️", label: "Itens", link: "/paginas/itens" },
+      { emoji: "🛠️", label: "Manutenções", link: "/paginas/manutencoes" },
+      { emoji: "💰", label: "Vendas", link: "/paginas/vendas" },
+      { emoji: "🎁", label: "Doações", link: "/paginas/doacoes" },
+      { emoji: "📄", label: "Contratos", link: "/paginas/contratos" },
+      { emoji: "⏰", label: "Horários", link: "/paginas/horarios" },
       { emoji: "👥", label: "Funcionários", link: "/paginas/funcionarios" },
+      { emoji: "📰", label: "Notícias", link: "/paginas/noticias" },
     ],
   },
 };

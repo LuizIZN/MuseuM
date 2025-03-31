@@ -52,5 +52,85 @@ export default function paginaRoutes(
     }
   );
 
+  roteador.get(
+    "/noticias",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/noticias.html")
+      );
+    }
+  );
+
+  roteador.get(
+    "/exposicoes",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/exposicoes.html")
+      );
+    }
+  );
+
+  roteador.get(
+    "/itens",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/itens.html")
+      );
+    }
+  );
+
+  roteador.get(
+    "/doacoes",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/doacoes.html")
+      );
+    }
+  );
+
+  roteador.get(
+    "/contratos",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/contratos.html")
+      );
+    }
+  );
+
+  roteador.get(
+    "/horarios",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/horario.html")
+      );
+    }
+  );
+
+  roteador.get(
+    "/emprestimos",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/emprestimos.html")
+      );
+    }
+  );
+
+  roteador.get(
+    "/vendas",
+    autenticacao.autenticacao,
+    (req: Request, res: Response) => {
+      res.sendFile(
+        path.join(__dirname, "../views/telas/vendas.html")
+      );
+    }
+  );
+
   return roteador;
 }

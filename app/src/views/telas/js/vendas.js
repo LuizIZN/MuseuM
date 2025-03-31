@@ -1,15 +1,34 @@
-const vendas = [];
+const vendas = [
+  {
+    valor: 1500,
+    data: "2021-10-01",
+    visitante: "Carlos Henrique",
+    item: "Vaso Grego",
+  },
+  {
+    valor: 2500,
+    data: "2021-10-02",
+    visitante: "Ana Paula",
+    item: "Quadro Modernista",
+  },
+  {
+    valor: 3500,
+    data: "2021-10-03",
+    visitante: "Empresa XYZ Ltda.",
+    item: "Escultura Romana",
+  },
+];
 
 const visitantes = [
   { nome: "Carlos Henrique" },
   { nome: "Ana Paula" },
-  { nome: "Empresa XYZ Ltda." }
+  { nome: "Empresa XYZ Ltda." },
 ];
 
 const itens = [
   { codigo: "ITM001", nome: "Vaso Grego" },
   { codigo: "ITM002", nome: "Quadro Modernista" },
-  { codigo: "ITM003", nome: "Escultura Romana" }
+  { codigo: "ITM003", nome: "Escultura Romana" },
 ];
 
 function renderVendas() {
@@ -33,7 +52,7 @@ function renderVendas() {
 
 function preencherSelects() {
   const visitanteSelect = document.getElementById("visitante");
-  visitantes.forEach(v => {
+  visitantes.forEach((v) => {
     const opt = document.createElement("option");
     opt.value = v.nome;
     opt.textContent = v.nome;
@@ -41,7 +60,7 @@ function preencherSelects() {
   });
 
   const itemSelect = document.getElementById("item");
-  itens.forEach(i => {
+  itens.forEach((i) => {
     const opt = document.createElement("option");
     opt.value = i.nome;
     opt.textContent = `${i.codigo} - ${i.nome}`;

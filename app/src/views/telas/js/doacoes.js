@@ -1,9 +1,43 @@
-const doacoes = [];
+const doacoes = [
+  {
+    valor: 100,
+    data: "2021-10-01",
+    visitante: "Carlos Henrique",
+    item: {
+      codigo: "001",
+      nome: "Livro",
+      estado: "Usado",
+      classificacao: "Literatura",
+    },
+  },
+  {
+    valor: 200,
+    data: "2021-10-02",
+    visitante: "Ana Paula",
+    item: {
+      codigo: "002",
+      nome: "Roupa",
+      estado: "Novo",
+      classificacao: "Vestuário",
+    },
+  },
+  {
+    valor: 300,
+    data: "2021-10-03",
+    visitante: "Fundação Cultural XYZ",
+    item: {
+      codigo: "003",
+      nome: "Móvel",
+      estado: "Usado",
+      classificacao: "Mobiliário",
+    },
+  },
+];
 
 const visitantes = [
   { nome: "Carlos Henrique" },
   { nome: "Ana Paula" },
-  { nome: "Fundação Cultural XYZ" }
+  { nome: "Fundação Cultural XYZ" },
 ];
 
 function renderDoacoes() {
@@ -28,7 +62,7 @@ function renderDoacoes() {
 
 function preencherVisitantes() {
   const select = document.getElementById("doacao-visitante");
-  visitantes.forEach(v => {
+  visitantes.forEach((v) => {
     const opt = document.createElement("option");
     opt.value = v.nome;
     opt.textContent = v.nome;
@@ -46,7 +80,15 @@ function registrarDoacao() {
   const estado = document.getElementById("item-estado").value;
   const classificacao = document.getElementById("item-classificacao").value;
 
-  if (!valor || !data || !visitante || !codigo || !nome || !estado || !classificacao) {
+  if (
+    !valor ||
+    !data ||
+    !visitante ||
+    !codigo ||
+    !nome ||
+    !estado ||
+    !classificacao
+  ) {
     alert("Preencha todos os campos.");
     return;
   }
@@ -55,13 +97,22 @@ function registrarDoacao() {
   doacoes.push({ valor, data, visitante, item });
 
   renderDoacoes();
-  bootstrap.Modal.getInstance(document.getElementById("modalNovaDoacao")).hide();
+  bootstrap.Modal.getInstance(
+    document.getElementById("modalNovaDoacao")
+  ).hide();
   limparCampos();
 }
 
 function limparCampos() {
-  ["doacao-valor", "doacao-data", "doacao-visitante", "item-codigo", "item-nome", "item-estado", "item-classificacao"]
-    .forEach(id => document.getElementById(id).value = "");
+  [
+    "doacao-valor",
+    "doacao-data",
+    "doacao-visitante",
+    "item-codigo",
+    "item-nome",
+    "item-estado",
+    "item-classificacao",
+  ].forEach((id) => (document.getElementById(id).value = ""));
 }
 
 function excluirDoacao(index) {

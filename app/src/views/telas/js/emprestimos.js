@@ -1,4 +1,10 @@
-const emprestimos = [];
+const emprestimos = [
+  { codigo: "EMP001", item: "ITM001", dataEmprestimo: "01/01/2021", dataDevolucao: "01/02/2021" },
+  { codigo: "EMP002", item: "ITM002", dataEmprestimo: "02/01/2021", dataDevolucao: "02/02/2021" },
+  { codigo: "EMP003", item: "ITM003", dataEmprestimo: "03/01/2021", dataDevolucao: "03/02/2021" },
+  { codigo: "EMP004", item: "ITM004", dataEmprestimo: "04/01/2021", dataDevolucao: "04/02/2021" },
+  { codigo: "EMP005", item: "ITM005", dataEmprestimo: "05/01/2021", dataDevolucao: "05/02/2021" }
+];
 const itensDisponiveis = [
   "ITM001", "ITM002", "ITM003", "ITM004", "ITM005"
 ];

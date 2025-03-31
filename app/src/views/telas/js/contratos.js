@@ -1,9 +1,15 @@
-const contratos = [];
+const contratos = [
+  { id: 1, descricao: "Contrato 1", valor: 1000, visitante: "Carlos Henrique" },
+  { id: 2, descricao: "Contrato 2", valor: 2000, visitante: "Carlos Henrique" },
+  { id: 3, descricao: "Contrato 3", valor: 3000, visitante: "Ana Paula" },
+  { id: 4, descricao: "Contrato 4", valor: 4000, visitante: "Carlos Henrique" },
+  { id: 5, descricao: "Contrato 5", valor: 5000, visitante: "Fundação XYZ" },
+];
 
 const visitantes = [
   { nome: "Carlos Henrique" },
   { nome: "Ana Paula" },
-  { nome: "Fundação XYZ" }
+  { nome: "Fundação XYZ" },
 ];
 
 function renderContratos() {
@@ -26,7 +32,7 @@ function renderContratos() {
 
 function preencherVisitantes() {
   const select = document.getElementById("contrato-visitante");
-  visitantes.forEach(v => {
+  visitantes.forEach((v) => {
     const opt = document.createElement("option");
     opt.value = v.nome;
     opt.textContent = v.nome;
@@ -47,7 +53,9 @@ function registrarContrato() {
   contratos.push({ valor, descricao, visitante });
   renderContratos();
 
-  bootstrap.Modal.getInstance(document.getElementById("modalNovoContrato")).hide();
+  bootstrap.Modal.getInstance(
+    document.getElementById("modalNovoContrato")
+  ).hide();
   limparCampos();
 }
 

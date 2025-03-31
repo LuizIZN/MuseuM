@@ -1,4 +1,4 @@
-const userType = "gerente"; // Mude para "diretor" ou "atendente"
+const userType = "gerente"; // Mude para "gerente" "diretor" ou "atendente"
 
 const users = {
   atendente: {
@@ -28,7 +28,7 @@ const users = {
       { emoji: "💰", label: "Vendas", link: "vendas.html" },
       { emoji: "🎁", label: "Doações", link: "doacoes.html" },
       { emoji: "📄", label: "Contratos", link: "contratos.html" },
-      { emoji: "⏰", label: "Horários", link: "horarios.html" },
+      { emoji: "⏰", label: "Horários", link: "horario.html" },
       { emoji: "👥", label: "Funcionários", link: "funcionarios.html" }
     ]
   }

@@ -266,7 +266,7 @@ class FuncionarioController {
       const token = (await this.gerarToken(usuario.id)).valueOf();
 
       res.cookie("token", token, {
-        httpOnly: true,
+        httpOnly: false,
         secure: true,
         sameSite: "none",
       });
@@ -288,8 +288,8 @@ class FuncionarioController {
   };
 
   public logout = async (req: Request, res: Response): Promise<void> => {
-    res.clearCookie("token");
-    res.clearCookie("usuario");
+    res.clearCookie("token", { path: "/", sameSite: "none", secure: true });
+    res.clearCookie("usuario", { path: "/", sameSite: "none", secure: true });
 
     res.status(200).json({ mensagem: "Usuário deslogado com sucesso!" });
   };

@@ -6,14 +6,14 @@ const noticias = [
     titulo: "Exposição de Arte Moderna",
     diretor: "Paulo",
     tags: "arte, moderna",
-    conteudo: "<p>Explore a nova exposição de arte moderna no MuseuM.</p>"
+    conteudo: "<p>Explore a nova exposição de arte moderna no MuseuM.</p>",
   },
   {
     titulo: "Oficina de Restauração",
     diretor: "Paulo",
     tags: "oficina, restauração",
-    conteudo: "<p>Participe da oficina de restauração de peças históricas.</p>"
-  }
+    conteudo: "<p>Participe da oficina de restauração de peças históricas.</p>",
+  },
 ];
 
 let quill;
@@ -21,7 +21,7 @@ let editandoIndex = null;
 
 window.addEventListener("DOMContentLoaded", () => {
   quill = new Quill("#quill-editor", {
-    theme: "snow"
+    theme: "snow",
   });
 
   if (userRole === "atendente") {
@@ -89,7 +89,7 @@ function salvarNoticia() {
     titulo,
     diretor: "Paulo",
     tags,
-    conteudo
+    conteudo,
   };
 
   if (editandoIndex !== null) {

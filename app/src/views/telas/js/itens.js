@@ -1,3 +1,7 @@
+if (usuario.cargo !== "gerente") {
+  window.location.href = "/dashboard";
+}
+
 let paginaAtual = 1; // Página inicial
 const itensPorPagina = 10; // Número de funcionários por página
 
@@ -138,6 +142,7 @@ async function editar() {
       classificacao,
     }),
   })
+
     .then(async (response) => {
       if (!response.ok) {
         throw await response.json();

@@ -1,7 +1,7 @@
 const { body, cookie } = require("express-validator");
 
 export default class NoticiaValidation {
-    private verificarPermissoes = () => {
+    public verificarPermissoes = () => {
         return cookie("usuario")
             .custom((usuario: any) => {
                 if (usuario.permissoes.includes("Gerenciar noticias")) {

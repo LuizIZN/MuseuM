@@ -1,4 +1,3 @@
-const usuario = JSON.parse(localStorage.getItem("usuario"));
 if (usuario.cargo !== "gerente") {
   window.location.href = "/dashboard";
 }

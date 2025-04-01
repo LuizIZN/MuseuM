@@ -1,7 +1,7 @@
 const { body, cookie } = require("express-validator");
 
 export default class HorarioFuncionamentoValidation {
-  private verificarPermissoes = () => {
+  public verificarPermissoes = () => {
     return cookie("usuario")
       .custom((usuario: any) => {
         if (usuario.permissoes.includes("Gerenciar horarios")) {

@@ -32,24 +32,29 @@
 
     <div class="card shadow-sm p-4">
       <h6 class="mb-3">Alterar Horário</h6>
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Dias Comerciais</label>
-          <input id="input-dias" class="form-control" placeholder="Ex: Seg a Sex" />
+      <form id="form-horario" onsubmit="event.preventDefault(); salvarHorario();">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Dias Comerciais</label>
+            <input
+              id="input-dias"
+              class="form-control"
+              placeholder="Ex: 2023-01-01, 2023-01-02"
+            />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Hora de Início</label>
+            <input id="input-inicio" type="time" class="form-control" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Hora de Fim</label>
+            <input id="input-fim" type="time" class="form-control" />
+          </div>
         </div>
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Hora de Início</label>
-          <input id="input-inicio" type="time" class="form-control" />
+        <div class="text-end">
+          <button type="submit" class="btn btn-primary">Salvar Alterações</button>
         </div>
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Hora de Fim</label>
-          <input id="input-fim" type="time" class="form-control" />
-        </div>
-      </div>
-
-      <div class="text-end">
-        <button class="btn btn-primary" onclick="salvarHorario()">Salvar Alterações</button>
-      </div>
+      </form>
     </div>
   </main>
 </div>

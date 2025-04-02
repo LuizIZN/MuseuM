@@ -113,7 +113,7 @@ async function cadastrar() {
         throw await response.json();
       }
       alert("Item cadastrado com sucesso!");
-      window.location.reload(); 
+      window.location.reload();
 
       form.reset();
     })
@@ -142,7 +142,6 @@ async function editar() {
       classificacao,
     }),
   })
-
     .then(async (response) => {
       if (!response.ok) {
         throw await response.json();

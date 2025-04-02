@@ -54,7 +54,8 @@
             <input
               type="text"
               class="form-control"
-              placeholder="🔍 Buscar notícia..."
+              id="input-busca"
+              placeholder="🔍 Buscar notícia por título..."
             />
           </div>
 
@@ -69,6 +70,9 @@
             </thead>
             <tbody id="tabela-noticias"></tbody>
           </table>
+          <nav class="d-flex justify-content-center mt-4">
+            <ul class="pagination pagination-sm"></ul>
+          </nav>
         </section>
 
         <!-- Seção: Editor de Notícia -->
@@ -93,7 +97,7 @@
               Cancelar
             </button>
             <button class="btn btn-primary" onclick="salvarNoticia()">
-              📤 Publicar Notícia
+              📤 Salvar Notícia
             </button>
           </div>
         </section>

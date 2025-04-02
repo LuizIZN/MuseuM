@@ -32,14 +32,15 @@
     </div>
 
     <div class="mb-3">
-      <input type="text" class="form-control" placeholder="🔍 Buscar manutenção...">
+      <input type="text" class="form-control"
+       id="input-busca" placeholder="🔍 Buscar manutenção por nome do item...">
     </div>
 
     <table class="table">
       <thead>
         <tr>
           <th>ID Técnico</th>
-          <th>Código Item</th>
+          <th>Nome do Item</th>
           <th>Nome do Técnico</th>
           <th>Data</th>
           <th>Valor (R$)</th>
@@ -51,50 +52,48 @@
     </table>
 
     <nav class="d-flex justify-content-center mt-4">
-      <ul class="pagination pagination-sm">
-        <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
-      </ul>
+      <ul class="pagination pagination-sm"></ul>
     </nav>
   </main>
 </div>
 
 <!-- MODAL Cadastrar Manutenção -->
-<div class="modal fade" id="modalCadastrarManutencao" tabindex="-1">
+<div class="modal fade" id="modalCadastrarManutencao" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog">
-    <div class="modal-content p-4">
-      <h5 class="modal-title mb-3">Nova Manutenção</h5>
-      <input id="new-id" class="form-control mb-2" placeholder="ID Técnico">
-      <input id="new-item" class="form-control mb-2" placeholder="Código do Item">
-      <input id="new-tecnico" class="form-control mb-2" placeholder="Nome do Técnico">
-      <input id="new-data" class="form-control mb-2" placeholder="Data">
-      <input id="new-valor" class="form-control mb-2" placeholder="Valor (R$)">
-      <input id="new-descricao" class="form-control mb-3" placeholder="Descrição">
+    <form id="form-cadastro" onsubmit="cadastrar()" class="modal-content p-4">
+      <h5 class="modal-title mb-3">Cadastrar Manutenção</h5>
+      <input id="new-id" name="numIdTecnico" class="form-control mb-2" placeholder="ID Técnico" min="0" type="number" required>
+      <select id="manutencao-item" name="itemId" class="form-select mb-2">
+        <option value="">Selecione o item</option>
+        <!-- Itens serão inseridos via JS -->
+      </select>
+      <input id="new-tecnico" name="nomeTecnico" class="form-control mb-2" placeholder="Nome do Técnico">
+      <input id="new-data" type="date" name="data" class="form-control mb-2" placeholder="Data">
+      <input id="new-valor" step="any" type="number" name="valor" class="form-control mb-2" placeholder="Valor (R$)">
+      <input id="new-descricao" name="descricao" class="form-control mb-3" placeholder="Descrição">
       <div class="text-end">
-        <button class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Fechar</button>
-        <button class="btn btn-primary" onclick="salvarNovaManutencao()">Salvar</button>
+        <button class="btn btn-outline-secondary me-2" data-bs-dismiss="modal" type="reset">Fechar</button>
+        <button class="btn btn-primary" type="submit">Salvar</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 
 <!-- MODAL Editar Manutenção -->
-<div class="modal fade" id="modalEditarManutencao" tabindex="-1">
+<div class="modal fade" id="modalEditar" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content p-4">
+    <form id="form-editar" onsubmit="editar()" class="modal-content p-4">
       <h5 class="modal-title mb-3">Editar Manutenção</h5>
-      <input id="edit-id" class="form-control mb-2" placeholder="ID Técnico">
-      <input id="edit-item" class="form-control mb-2" placeholder="Código do Item">
-      <input id="edit-tecnico" class="form-control mb-2" placeholder="Nome do Técnico">
-      <input id="edit-data" class="form-control mb-2" placeholder="Data">
-      <input id="edit-valor" class="form-control mb-2" placeholder="Valor (R$)">
-      <input id="edit-descricao" class="form-control mb-3" placeholder="Descrição">
+      <input id="new-id" name="numIdTecnico" class="form-control mb-2" placeholder="ID Técnico" min="0" type="number" required>
+      <input id="new-tecnico" name="nomeTecnico" class="form-control mb-2" placeholder="Nome do Técnico">
+      <input id="new-data" type="date" name="data" class="form-control mb-2" placeholder="Data">
+      <input id="new-valor" step="any" type="number" name="valor" class="form-control mb-2" placeholder="Valor (R$)">
+      <input id="new-descricao" name="descricao" class="form-control mb-3" placeholder="Descrição">
       <div class="text-end">
-        <button class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Fechar</button>
-        <button class="btn btn-primary" onclick="salvarEdicao()">Salvar Alterações</button>
+        <button class="btn btn-outline-secondary me-2" data-bs-dismiss="modal" type="reset">Fechar</button>
+        <button class="btn btn-primary" type="submit">Salvar</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 

@@ -6,7 +6,6 @@ let horario = {
 
 async function carregarHorario() {
   try {
-    console.log("Iniciando requisição para carregar o último horário...");
     const response = await fetch("http://localhost:4000/horarios", {
       method: "GET",
       headers: {
@@ -21,11 +20,9 @@ async function carregarHorario() {
     }
 
     const data = await response.json();
-    console.log("Dados recebidos da API (último horário):", data);
 
     // Verifica se os dados retornados são válidos
     if (!data || !data.horaInicio) {
-      console.warn("Nenhum horário encontrado ou dados inválidos.");
       document.getElementById("horario-inicio").textContent = "—";
       document.getElementById("horario-fim").textContent = "—";
       document.getElementById("horario-dias").textContent = "—";
@@ -64,12 +61,6 @@ async function salvarHorario() {
   const inicio = document.getElementById("input-inicio").value;
   const fim = document.getElementById("input-fim").value;
 
-  console.log("Dados enviados para o backend:", {
-    diasComerciais: dias,
-    horaInicio: inicio,
-    horaFim: fim,
-  });
-
   if (!dias.length || !inicio || !fim) {
     alert("Preencha todos os campos.");
     return;
@@ -101,7 +92,6 @@ async function salvarHorario() {
       throw new Error(errorData.erros?.[0] || "Erro ao salvar horário.");
     }
 
-    console.log("Horário salvo com sucesso!");
     await carregarHorario();
     alert("Horário atualizado com sucesso!");
 

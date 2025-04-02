@@ -33,6 +33,7 @@ const users = {
       { emoji: "📄", label: "Contratos", link: "/paginas/contratos" },
       { emoji: "⏰", label: "Horários", link: "/paginas/horarios" },
       { emoji: "👥", label: "Funcionários", link: "/paginas/funcionarios" },
+      { emoji: "🧍", label: "Visitantes", link: "/paginas/visitantes" },
       { emoji: "📰", label: "Notícias", link: "/paginas/noticias" },
     ],
   },

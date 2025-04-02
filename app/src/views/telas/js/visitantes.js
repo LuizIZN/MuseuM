@@ -1,5 +1,5 @@
-if (usuario.cargo !== "atendente") {
-  window.location.href = "/dashboard";
+if (usuario.cargo !== "atendente" && usuario.cargo !== "gerente") {
+  window.location.href = "/paginas/dashboard";
 }
 
 let paginaAtual = 1; // Página inicial

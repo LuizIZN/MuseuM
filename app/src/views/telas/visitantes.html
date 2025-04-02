@@ -123,18 +123,19 @@
             class="form-control mb-2"
             placeholder="Endereço"
           />
-          <div class="text-end">
+            <div class="text-end">
             <button
               class="btn btn-outline-secondary me-2"
               data-bs-dismiss="modal"
               type="reset"
+              onclick="document.getElementById('form-cadastro').reset(); document.getElementById('campos-fisica').classList.remove('d-none'); document.getElementById('campos-juridica').classList.add('d-none');"
             >
               Fechar
             </button>
             <button class="btn btn-primary" type="submit">
               Salvar Visitante
             </button>
-          </div>
+            </div>
         </form>
       </div>
     </div>

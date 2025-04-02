@@ -1,3 +1,7 @@
+if (usuario.cargo !== "gerente") {
+  window.location.href = "/dashboard";
+}
+
 let paginaAtual = 1; // Página inicial
 const itensPorPagina = 10; // Número de funcionários por página
 
@@ -21,6 +25,14 @@ async function carregarFuncionarios() {
 let funcionarioSelecionado = null;
 function selecionarFuncionario(funcionario) {
   funcionarioSelecionado = funcionario;
+
+  const form = document.getElementById("form-editar");
+  form.nome.value = funcionarios.find(
+    (func) => func.funcionario_id === funcionario
+  ).nome;
+  form.email.value = funcionarios.find(
+    (func) => func.funcionario_id === funcionario
+  ).email;
 }
 
 // Renderiza a tabela com os dados
@@ -83,13 +95,13 @@ async function cadastrar() {
         throw await response.json();
       }
       alert("Funcionário cadastrado com sucesso!");
+
+      form.reset();
       window.location.reload();
     })
     .catch((error) => {
       alert(error.erros[0]);
     });
-
-  form.reset();
 }
 
 async function editar() {
@@ -113,13 +125,13 @@ async function editar() {
         throw await response.json();
       }
       alert("Funcionário editado com sucesso!");
+
+      form.reset();
       window.location.reload();
     })
     .catch((error) => {
       alert(error.erros[0]);
     });
-
-  form.reset();
 }
 
 async function excluir(id) {
@@ -145,8 +157,6 @@ async function excluir(id) {
     .catch((error) => {
       alert(error.erros[0]);
     });
-
-  form.reset();
 }
 
 const busca = document.getElementById("input-busca");

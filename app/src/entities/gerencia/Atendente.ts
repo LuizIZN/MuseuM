@@ -16,7 +16,8 @@ export default class Atendente extends Funcionario {
       "Consultar noticias",
       "Consultar exposicoes",
       "Consultar eventos",
-      "Consultar horarios"
+      "Consultar horarios",
+      "Consultar itens"
     ];
     this.setCargo("atendente");
   }

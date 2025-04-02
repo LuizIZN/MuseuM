@@ -1,74 +1,195 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vendas - MuseuM</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="text/css" href="/css/style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vendas - MuseuM</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="text/css" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="d-flex vh-100">
+      <!-- Sidebar -->
+      <aside
+        class="bg-white border-end p-4 d-flex flex-column justify-content-between"
+        style="width: 250px"
+      >
+        <div>
+          <h4 class="fw-bold mb-4 text-center">
+            Museu<span class="text-dark">M</span>
+          </h4>
+          <p class="text-muted fw-semibold mb-2">Menu</p>
+          <ul id="menu-list" class="nav flex-column gap-1"></ul>
+        </div>
+      </aside>
 
-<div class="d-flex vh-100">
-  <!-- Sidebar -->
-  <aside class="bg-white border-end p-4 d-flex flex-column justify-content-between" style="width: 250px;">
-    <div>
-      <h4 class="fw-bold mb-4 text-center">Museu<span class="text-dark">M</span></h4>
-      <p class="text-muted fw-semibold mb-2">Menu</p>
-      <ul id="menu-list" class="nav flex-column gap-1"></ul>
+      <!-- Conteúdo -->
+      <main class="flex-fill p-4 overflow-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h4 class="fw-bold">Gerenciar Vendas</h4>
+          <button
+            class="btn btn-outline-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#modalNovaVenda"
+          >
+            + Nova Venda
+          </button>
+        </div>
+
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="input-busca"
+            placeholder="🔍 Buscar venda por visitante..."
+          />
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Valor (R$)</th>
+              <th>Data</th>
+              <th>Visitante</th>
+              <th>Itens</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabela-vendas"></tbody>
+        </table>
+        <nav class="d-flex justify-content-center mt-4">
+          <ul class="pagination pagination-sm"></ul>
+        </nav>
+      </main>
     </div>
-  </aside>
 
-  <!-- Conteúdo -->
-  <main class="flex-fill p-4 overflow-auto">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h4 class="fw-bold">Gerenciar Vendas</h4>
-      <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modalNovaVenda">+ Nova Venda</button>
-    </div>
+    <!-- Modal: Nova Venda -->
+    <div class="modal fade" id="modalNovaVenda" tabindex="-1" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+      <div class="modal-dialog">
+        <form id="form-cadastro" onsubmit="cadastrar()" class="modal-content p-4">
+          <h5 class="modal-title mb-3">Cadastrar Venda</h5>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Valor (R$)</th>
-          <th>Data</th>
-          <th>Visitante</th>
-          <th>Item</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="tabela-vendas"></tbody>
-    </table>
-  </main>
-</div>
+          <input
+            id="valor"
+            class="form-control mb-2"
+            name="valor"
+            type="number"
+            step="0.01"
+            placeholder="Valor da venda (R$)"
+          />
+          <input id="data" type="date" naem="data" class="form-control mb-2" />
 
-<!-- Modal: Nova Venda -->
-<div class="modal fade" id="modalNovaVenda" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content p-4">
-      <h5 class="modal-title mb-3">Registrar Venda</h5>
+          <select id="venda-visitante" class="form-select" name="visitante">
+            <option value="">Selecione o visitante</option>
+          </select>
 
-      <input id="valor" class="form-control mb-2" placeholder="Valor da venda (R$)" />
-      <input id="data" type="date" class="form-control mb-2" />
+            <div class="mb-3" style="overflow-y: auto; max-height: 150px;">
+            <label for="venda-item" class="form-label fw-semibold"
+              >Itens da Venda</label
+            >
+            <div class="input-group">
+              <select id="venda-item" class="form-select">
+              <option value="">Selecione o item</option>
+              </select>
+              <button type="button" onclick="adicionarItem()" class="btn btn-outline-dark">
+              Adicionar
+              </button>
+            </div>
+            </div>
+          <div
+            id="itensAdicionados"
+            class="border rounded p-3"
+            style="min-height: 100px; background-color: #f8f9fa"
+          >
+            <p class="text-muted text-center m-0">Nenhum item adicionado.</p>
+          </div>
 
-      <select id="visitante" class="form-select mb-2">
-        <option value="">Selecione o visitante</option>
-      </select>
+          <hr class="my-4" />
 
-      <select id="item" class="form-select mb-3">
-        <option value="">Selecione o item</option>
-      </select>
-
-      <div class="text-end">
-        <button class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="registrarVenda()">Salvar</button>
+          <div class="text-end">
+            <button
+              class="btn btn-outline-secondary me-2"
+              data-bs-dismiss="modal"
+              type="reset"
+              onclick="itensAdicionados = []; exibirItensAdicionados();"
+            >
+              Cancelar
+            </button>
+            <button class="btn btn-primary">
+              Salvar
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="/js/menu.js"></script>
-<script type="text/javascript" src="/js/vendas.js"></script>
-</body>
+    <div class="modal fade" id="modalEditar" tabindex="-1" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+      <div class="modal-dialog">
+        <form id="form-editar" onsubmit="editar()" class="modal-content p-4">
+          <h5 class="modal-title mb-3">Cadastrar Venda</h5>
+
+          <input
+            id="valor"
+            class="form-control mb-2"
+            name="valor"
+            type="number"
+            step="0.01"
+            placeholder="Valor da venda (R$)"
+          />
+          <input id="data" type="date" naem="data" class="form-control mb-2" />
+
+          <select id="editar-visitante" class="form-select mb-2" name="visitante">
+            <option value="">Selecione o visitante</option>
+          </select>
+
+            <div class="mb-3" style="overflow-y: auto; max-height: 150px;">
+            <label for="editar-item" class="form-label fw-semibold"
+              >Itens da Venda</label
+            >
+            <div class="input-group">
+              <select id="editar-item" class="form-select">
+              <option value="">Selecione o item</option>
+              </select>
+              <button type="button" onclick="adicionarItemEditar()" class="btn btn-outline-dark">
+              Adicionar
+              </button>
+            </div>
+            </div>
+          <div
+            id="itensAdicionadosEditar"
+            class="border rounded p-3"
+            style="min-height: 100px; background-color: #f8f9fa"
+          >
+            <p class="text-muted text-center m-0">Nenhum item adicionado.</p>
+          </div>
+
+          <hr class="my-4" />
+
+          <div class="text-end">
+            <button
+              class="btn btn-outline-secondary me-2"
+              data-bs-dismiss="modal"
+              type="reset"
+              onclick="itensAdicionados = []; exibirItensAdicionados();"
+            >
+              Cancelar
+            </button>
+            <button class="btn btn-primary">
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/js/menu.js"></script>
+    <script type="text/javascript" src="/js/vendas.js"></script>
+  </body>
 </html>

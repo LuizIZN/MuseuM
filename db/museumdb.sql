@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS venda (
     data DATE NOT NULL DEFAULT CURRENT_DATE,
     valor NUMERIC(10, 2) NOT NULL CHECK (valor > 0),
     gerente_id INTEGER REFERENCES gerente (id) ON DELETE SET NULL ON UPDATE CASCADE,
-    visitante_id INTEGER NOT NULL REFERENCES pessoafisica (id) ON DELETE CASCADE ON UPDATE CASCADE
+    visitante_id INTEGER NOT NULL REFERENCES visitante (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Tabela para itens vendidos

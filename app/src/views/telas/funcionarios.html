@@ -49,7 +49,7 @@
             type="text"
             class="form-control"
             id="input-busca"
-            placeholder="🔍 Buscar funcionário..."
+            placeholder="🔍 Buscar funcionário por nome..."
           />
         </div>
 
@@ -67,22 +67,52 @@
         </table>
 
         <nav class="d-flex justify-content-center mt-4">
-          <ul class="pagination pagination-sm">
-            
-          </ul>
+          <ul class="pagination pagination-sm"></ul>
         </nav>
       </main>
     </div>
 
     <!-- MODAL Cadastrar -->
-    <div class="modal fade" id="modalCadastrar" tabindex="-1">
+    <div
+      class="modal fade"
+      id="modalCadastrar"
+      tabindex="-1"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+    >
       <div class="modal-dialog">
-        <form onsubmit="cadastrar()" id="form-cadastro" class="modal-content p-4">
+        <form
+          onsubmit="cadastrar()"
+          id="form-cadastro"
+          class="modal-content p-4"
+        >
           <h5 class="modal-title mb-3">Cadastrar Funcionário</h5>
-          <input class="form-control mb-2" name="nome" placeholder="Nome" required />
-          <input class="form-control mb-2" name="email" placeholder="Email" required />
-          <input class="form-control mb-2" type="password" name="senha" placeholder="Senha" required />
-          <input class="form-control mb-2" type="password" name="confirmarSenha" placeholder="Confirmar Senha" required />
+          <input
+            class="form-control mb-2"
+            name="nome"
+            placeholder="Nome"
+            required
+          />
+          <input
+            class="form-control mb-2"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <input
+            class="form-control mb-2"
+            type="password"
+            name="senha"
+            placeholder="Senha"
+            required
+          />
+          <input
+            class="form-control mb-2"
+            type="password"
+            name="confirmarSenha"
+            placeholder="Confirmar Senha"
+            required
+          />
           <select class="form-control mb-2" name="funcao" id="funcao" required>
             <option disabled selected>Função</option>
             <option value="gerente">Gerente</option>
@@ -97,7 +127,7 @@
             >
               Fechar
             </button>
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
           </div>
         </form>
       </div>
@@ -108,8 +138,18 @@
       <div class="modal-dialog">
         <form onsubmit="editar()" id="form-editar" class="modal-content p-4">
           <h5 class="modal-title mb-3">Editar Funcionário</h5>
-          <input class="form-control mb-2" id="nome" placeholder="Nome" required />
-          <input class="form-control mb-2" id="email" placeholder="Email" required />
+          <input
+            class="form-control mb-2"
+            id="nome"
+            placeholder="Nome"
+            required
+          />
+          <input
+            class="form-control mb-2"
+            id="email"
+            placeholder="Email"
+            required
+          />
           <div class="text-end">
             <button
               class="btn btn-outline-secondary me-2"
@@ -118,7 +158,9 @@
             >
               Fechar
             </button>
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <button type="submit" class="btn btn-primary">
+              Salvar Alterações
+            </button>
           </div>
         </form>
       </div>

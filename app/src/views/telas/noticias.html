@@ -1,89 +1,129 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Notícias - MuseuM</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
-  <link rel="text/css" href="/css/style.css" />
-  <style>
-    #quill-editor {
-      height: 250px;
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Notícias - MuseuM</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <link rel="text/css" href="/css/style.css" />
+    <style>
+      #quill-editor {
+        height: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="d-flex vh-100">
+      <!-- Sidebar -->
+      <aside
+        class="bg-white border-end p-4 d-flex flex-column justify-content-between"
+        style="width: 250px"
+      >
+        <div>
+          <h4 class="fw-bold mb-4 text-center">
+            Museu<span class="text-dark">M</span>
+          </h4>
+          <p class="text-muted fw-semibold mb-2">Menu</p>
+          <ul id="menu-list" class="nav flex-column gap-1"></ul>
+        </div>
+      </aside>
 
-<div class="d-flex vh-100">
-  <!-- Sidebar -->
-  <aside class="bg-white border-end p-4 d-flex flex-column justify-content-between" style="width: 250px;">
-    <div>
-      <h4 class="fw-bold mb-4 text-center">Museu<span class="text-dark">M</span></h4>
-      <p class="text-muted fw-semibold mb-2">Menu</p>
-      <ul id="menu-list" class="nav flex-column gap-1"></ul>
+      <!-- Conteúdo -->
+      <main class="flex-fill p-4 overflow-auto">
+        <!-- Seção: Lista de Notícias -->
+        <section id="secao-lista">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold">Notícias</h4>
+            <button
+              id="btnNovaNoticia"
+              class="btn btn-outline-dark"
+              onclick="abrirEditor()"
+            >
+              + Nova Notícia
+            </button>
+          </div>
+
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="input-busca"
+              placeholder="🔍 Buscar notícia por título..."
+            />
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Diretor</th>
+                <th>Palavras-chave</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tabela-noticias"></tbody>
+          </table>
+          <nav class="d-flex justify-content-center mt-4">
+            <ul class="pagination pagination-sm"></ul>
+          </nav>
+        </section>
+
+        <!-- Seção: Editor de Notícia -->
+        <section id="secao-editor" class="d-none">
+          <h5 class="fw-bold mb-3">Editor de Notícia</h5>
+          <input
+            id="noticia-titulo"
+            class="form-control mb-2"
+            placeholder="📝 Título da Notícia"
+          />
+          <input
+            id="noticia-tags"
+            class="form-control mb-2"
+            placeholder="🔖 Palavras-chave (separadas por vírgula)"
+          />
+          <div id="quill-editor" class="mb-3"></div>
+          <div class="text-end">
+            <button
+              class="btn btn-outline-secondary me-2"
+              onclick="fecharEditor()"
+            >
+              Cancelar
+            </button>
+            <button class="btn btn-primary" onclick="salvarNoticia()">
+              📤 Salvar Notícia
+            </button>
+          </div>
+        </section>
+      </main>
     </div>
-  </aside>
 
-  <!-- Conteúdo -->
-  <main class="flex-fill p-4 overflow-auto">
-
-    <!-- Seção: Lista de Notícias -->
-    <section id="secao-lista">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold">Notícias</h4>
-        <button id="btnNovaNoticia" class="btn btn-outline-dark" onclick="abrirEditor()">+ Nova Notícia</button>
-      </div>
-
-      <div class="mb-3">
-        <input type="text" class="form-control" placeholder="🔍 Buscar notícia...">
-      </div>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Diretor</th>
-            <th>Palavras-chave</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="tabela-noticias"></tbody>
-      </table>
-    </section>
-
-    <!-- Seção: Editor de Notícia -->
-    <section id="secao-editor" class="d-none">
-      <h5 class="fw-bold mb-3">Editor de Notícia</h5>
-      <input id="noticia-titulo" class="form-control mb-2" placeholder="📝 Título da Notícia" />
-      <input id="noticia-tags" class="form-control mb-2" placeholder="🔖 Palavras-chave (separadas por vírgula)" />
-      <div id="quill-editor" class="mb-3"></div>
-      <div class="text-end">
-        <button class="btn btn-outline-secondary me-2" onclick="fecharEditor()">Cancelar</button>
-        <button class="btn btn-primary" onclick="salvarNoticia()">📤 Publicar Notícia</button>
-      </div>
-    </section>
-  </main>
-</div>
-
-<!-- Modal Ler Notícia -->
-<div class="modal fade" id="modalLerNoticia" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content p-4">
-      <h5 class="modal-title" id="lerTitulo"></h5>
-      <hr />
-      <div id="lerConteudo" class="mb-3"></div>
-      <div class="text-end">
-        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+    <!-- Modal Ler Notícia -->
+    <div class="modal fade" id="modalLerNoticia" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-4">
+          <h5 class="modal-title" id="lerTitulo"></h5>
+          <hr />
+          <div id="lerConteudo" class="mb-3"></div>
+          <div class="text-end">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              Fechar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-<script type="text/javascript" src="/js/menu.js"></script>
-<script type="text/javascript" src="/js/noticias.js"></script>
-</body>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script type="text/javascript" src="/js/menu.js"></script>
+    <script type="text/javascript" src="/js/noticias.js"></script>
+  </body>
 </html>

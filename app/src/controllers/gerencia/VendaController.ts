@@ -97,12 +97,12 @@ export default class VendaController {
 
   public editarVenda = async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id;
-    const { data, valor, itens } = req.body;
+    const { data, valor, visitante_id, itens } = req.body;
 
     try {
       const resultado = await this.conexao?.query(
-        "UPDATE museum.venda SET data = $1, valor = $2 WHERE id = $3 RETURNING *",
-        [data, valor, id]
+        "UPDATE museum.venda SET data = $1, valor = $2, visitante_id = $3 WHERE id = $4 RETURNING *",
+        [data, valor, visitante_id, id]
       );
 
       if (resultado?.rowCount === 0) {
